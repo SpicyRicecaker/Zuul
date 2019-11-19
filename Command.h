@@ -1,9 +1,14 @@
 #include <iostream>
 
-public Command
+class Command
 {
  public:
-  public Command();
-  void addCommand();
+  //A command just needs a description
+  Command(char*);
+  bool checkFor();
+  void head();
+  void grab();
+  void toss();
  private:
+  char* desc;
 }
