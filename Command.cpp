@@ -4,5 +4,17 @@
 using namespace std;
 
 Command::Command(char* newDesc){
-  desc = newDesc();
+  strcpy(desc, newDesc);
+}
+
+void Command::head(){
+
+}
+
+void Command::grab(){
+
+}
+
+void Command::toss(){
+
 }

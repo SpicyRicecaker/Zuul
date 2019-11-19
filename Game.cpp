@@ -25,7 +25,7 @@ int main(){
   cout << "Welcome to the world of Zuul! I'd like to thank my friend Peter Jin for making this game possible, and for helping me code. Peter Pan's Land is a world in a set in a dystopian future where capitalism has led to the rise of Peter Jin & Peter Pan. Anyways, have fun playing!" << endl;
   
   bool running = true;
-  
+
   while(running){
     
   }
