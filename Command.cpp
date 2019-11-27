@@ -1,10 +1,11 @@
 #include <iostream>
+#include <cstring>
 #include "Command.h"
 
 using namespace std;
 
 Command::Command(char* newDesc){
-  strcpy(desc, newDesc);
+  desc = newDesc;
 }
 
 void Command::head(){

@@ -1,4 +1,7 @@
 #include <iostream>
+#include <cstring>
+
+using namespace std;
 
 class Command
 {
@@ -11,4 +14,4 @@ class Command
   void toss();
  private:
   char* desc;
-}
+};

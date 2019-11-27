@@ -1,11 +1,13 @@
 #include <iostream>
 #include <cstring>
-#inlcude "Room.h"
+#include <vector>
+#include "Item.h"
+#include "Room.h"
 
-Room::Room(char* newDesc, vector<Item> newItemList, map<char*, Room>* newExits){
+Room::Room(char* newDesc, vector<Item*>* newItemList, map<char*, Room*>* newExits){
   strcpy(desc, newDesc);
   itemList = newItemList;
-  exits->putAll(newExits);
+  exits = newExits;
 }
 
 char* Room::getDesc(){
@@ -21,6 +23,6 @@ char* Room::getExitString(){
   //Need to get cardinal directions later
 }
 
-Room Room::getExitRoom(){
+Room* Room::getExitRoom(){
   //Hashmap direction
 }

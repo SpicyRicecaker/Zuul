@@ -1,15 +1,19 @@
 #include <iostream>
+#include <vector>
 #include <map>
+#include "Item.h"
+
+using namespace std;
 
 class Room{
  public:
-  Room(char*, vector<Item>, map<char*, Room>*);
+  Room(char*, vector<Item*>*, map<char*, Room*>*);
   char* getDesc();
   char* getLongDesc();
   char* getExitString();
-  Room getExitRoom();
+  Room* getExitRoom();
  private:
   char* desc;
   vector<Item*>* itemList;
-  map<char*, Room>* exits;
-}
+  map<char*, Room*>* exits;
+};
