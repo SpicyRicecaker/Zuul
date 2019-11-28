@@ -1,11 +1,12 @@
 #include <iostream>
 #include <cstring>
 #include <vector>
+#include <map>
 #include "Item.h"
 #include "Room.h"
 
 Room::Room(char* newDesc, vector<Item*>* newItemList, map<char*, Room*>* newExits){
-  strcpy(desc, newDesc);
+  desc = newDesc;
   itemList = newItemList;
   exits = newExits;
 }
