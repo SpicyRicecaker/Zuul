@@ -1,0 +1,13 @@
+#include <iostream>
+#include <cstring>
+#include "Room.h"
+#include "Command.h"
+
+class Head : public Command {
+ public:
+  Head(char*);
+  int getType();
+  char* returnBurn();
+  void doStuff(char*, char*);
+ private:
+};

@@ -1,3 +1,6 @@
+#ifndef ROOM_H
+#define ROOM_H
+
 #include <iostream>
 #include <cstring>
 #include <vector>
@@ -18,3 +21,4 @@ class Room{
   vector<Item*>* itemList;
   map<char*, Room*>* exits;
 };
+#endif

@@ -9,14 +9,6 @@ Command::Command(char* newDesc){
 }
 
 char* Command::getDesc(){
-  return desc;
-}
-
-int Command::getType(){
-
-}
-
-char* Command::returnBurn(){
-
+  reutrn desc;
 }
 

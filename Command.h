@@ -1,3 +1,6 @@
+#ifndef COMMAND_H
+#define COMMAND_H
+
 #include <iostream>
 #include <cstring>
 
@@ -8,10 +11,10 @@ class Command
  public:
   //A command just needs a description
   Command(char*);
-  bool checkFor();
-  void head();
-  void grab();
-  void toss();
+  char* getDesc();
+  virtual int getType();
+  virtual char* returnBurn();
  private:
   char* desc;
 };
+#endif

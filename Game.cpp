@@ -6,12 +6,19 @@
 #include "Item.h"
 #include "Room.h"
 #include "Command.h"
+#include "Head.h"
+#include "Grab.h"
+#include "Toss.h"
+
+#define HEAD_TYPE 3
+#define GRAB_TYPE 4
+#define TOSS_TYPE 5
 
 using namespace std;
 
-void init(bool& running, vector<Command*>* commandsptr, Room* currentRoom);
-void processInput(char* commandstr, char* keywordstr);
-void processCommand(char* commandstr, char* keywordstr);
+void init(bool&, vector<Command*>*, Room*);
+void processInput(char*, char*);
+void processCommand(char* , char* , vector<Command*>*);
 
 int main(){
 
@@ -34,9 +41,12 @@ int main(){
   //Current Room
   Room* currentRoom;
 
-  //Command string and Keyword string, oneword
-  char* commandstr;
-  char* keywordstr;
+  //Command string and Keyword string
+  char commandsarr[99];
+  char* commandstr = commandsarr;
+  char keywordsarr[99];
+  char* keywordstr = keywordsarr;
+  
 
   cout << "Welcome to the world of Zuul! I'd like to thank my friend Peter Jin for making this game possible, and for helping me code. Peter Pan's Land is a world set in a dystopian future where capitalism has led to the rise of Peter Jin & Peter Pan. Anyways, have fun playing!" << endl;
   
@@ -48,15 +58,15 @@ int main(){
 
   while(running){
     processInput(commandstr, keywordstr);
-    processCommand(commandstr, keywordstr);
+    processCommand(commandstr, keywordstr, commandsptr);
   }
 }
 
 void init(bool& running, vector<Command*>* commandsptr, Room* currentRoom){
   running = true;  
-  commandsptr->push_back(new Command((char*)"Head"));
-  commandsptr->push_back(new Command((char*)"Toss"));
-  commandsptr->push_back(new Command((char*)"Grab"));
+  commandsptr->push_back(new Head((char*)"HEAD"));
+  //commandsptr->push_back(new Command((char*)"Toss"));
+  //commandsptr->push_back(new Command((char*)"Grab"));
   currentRoom = new Room((char*) "Peter Pan's Jam", new vector<Item*>, new map<char*, Room*>);
 }
 
@@ -69,56 +79,71 @@ void processInput(char* commandstr, char* keywordstr){
     cin.get(in, 99);
     cin.clear();
     cin.ignore(999, '\n');
-
-    for(int a = 0; a < strlen(in); ++a){
-      if(in[a] == ' '){
-	++spaces;
-      }
-    }
     
-    if(in != NULL){
+    if(strlen(in) != 0){
+      for(int a = 0; a < strlen(in); ++a){
+      in[a] = toupper(in[a]);
+        if(in[a] == ' '){
+	  ++spaces;
+        }
+      }
       //If there are no spaces just return
       if(spaces == 0){
-	  commandstr = (char*) in;
-	  keywordstr = NULL;
-	  break;
-	  //If there is 1 space make sure that there are characters to the left and right of the space
+	commandstr = (char*) in;
+	keywordstr = NULL;
+	break;
+	//If there is 1 space make sure that there are characters to the left and right of the space
       }else if(spaces == 1){
 	int index;
-	for(int a = 0; a < strlen(in); a++){
+	for(int a = 0; a < strlen(in); ++a){
 	  if(in[a] == ' '){
 	    index = a;
 	    break;
 	  }
 	}
         if(index != 0 && index != strlen(in)-1){
-	  char first[index];
-	  char second[strlen(in)-1-index];
-
-	  for(int a = 0; a < index; a++){
+	  //We add 1 more to the array length to hold the null terminating character
+	  char first[index+1] = "";
+	  char second[(strlen(in)-index)] = "";
+	  
+	  for(int a = 0; a < index; ++a){
 	    first[a] = in[a];
 	  }
-	  for(int a = index + 1; a < strlen(in); a++){
-	    second[a] = in[a];
+	  for(int a = index + 1; a < strlen(in); ++a){
+	    second[a-index-1] = in[a];
 	  }
-	  commandstr = (char*) first;
-	  keywordstr = (char*) second;
+	  
+	  strcpy(commandstr,first);
+	  strcpy(keywordstr,second);
 	  break;
 	}
       }
     }
-    cout << "Sorry, but you entered an invalid command. Make sure to type \"HELP\" if you need help!" << endl;
-    
+    cout << "Invalid command. Make sure to type \"HELP\" if you need help!" << endl;
   }
 }
 
-void processCommand(char* commandstr, char* keywordstr){
-  if(keywordstr == NULL){
-    vector<Room*>::iterator roomListIt;
-    for(roomListIt = 
-  }else{
-    
-  }
-
-  
+void processCommand(char* commandstr, char* keywordstr, vector<Command*>* commandsptr){
+    vector<Command*>::iterator commandsIt;
+    bool found = false;
+    for(commandsIt = commandsptr->begin(); commandsIt != commandsptr->end(); ++commandsIt){
+      if(strcmp((*commandsIt)->getDesc(),commandstr) == 0){
+	found = true;
+	break;
+      }
+    }
+    if(found == false){
+      cout << "Sorry, but you entered an invalid command. Make sure to type \"HELP\" if you need help!" << endl;
+    }else{
+      int type = (*commandsIt)->getType();
+      switch (type){
+      case HEAD_TYPE:
+	cout << "YAY I MASTERED INHERITANCE BEAT IT B" << endl;
+	break;
+      case GRAB_TYPE:
+	break;
+      case TOSS_TYPE:
+	break;
+      }      
+    }
 }
