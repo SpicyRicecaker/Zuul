@@ -20,18 +20,15 @@ void buildRoom (map<char*,Room*>*, char*, char*);
 void processInput(char*, char*);
 void processCommand(char* , char* , vector<Command*>*, map<char*, Room*>*, Room**);
 void printExitString(map<char*, char*>*);
+void printItemString(vector<Item*>*);
 
 int main(){
-
-  //List of Rooms
-  vector<Room*> rooms;
-  vector<Room*>* roomsptr = &rooms;
-
+  
   //List of Visited Rooms (for Map)
   vector<Room*> encRooms;
   vector<Room*>* encRoomsptr = &encRooms;
 
-  //List of Names of Rooms
+  //List of Rooms
   map<char*, Room*>* rm = new map<char*, Room*>;
 
   //Adding all the Rooms!
@@ -44,6 +41,11 @@ int main(){
   ((*rm)[(char*)"Peter Pan's Jam"])->setExit((char*)"SOUTH", (char*)"Peter Puffin");
 
   ((*rm)[(char*)"Peter Pan's Fam"])->setExit((char*)"WEST", (char*)"Peter Pan's Jam");
+
+  ((*rm)[(char*)"Peter Puffin"])->setExit((char*)"NORTH", (char*)"Peter Pan's Jam");
+
+  //Adding all the items!
+  ((*rm)[(char*)"Peter Pan's Jam"])->addItem((char*)"Peter's Jam");
   
   //Inventory
   vector<Item*> bag;
@@ -81,10 +83,10 @@ int main(){
   while(running){
     cout << "You are at " << currentRoom->getTitle() << "!" << endl;
     cout << currentRoom->getDesc() << endl;
-    //Finish this then sleep VVV
     cout << "Exits: ";
     printExitString(currentRoom->getExits());
-    cout << "Items: " << endl;
+    cout << "Items: ";
+    printItemString(currentRoom->getItems());
     processInput(commandstr, keywordstr);
     processCommand(commandstr, keywordstr, commandsptr, rm, currentRoomptr);
   }
@@ -179,6 +181,14 @@ void printExitString(map<char*, char*>* exits){
   map<char*, char*>::iterator it;
   for(it = exits->begin(); it != exits->end(); ++it){
     cout << it->first << " ";
+  }
+  cout << endl;
+}
+
+void printItemString(vector<Item*>* items){
+  vector<Item*>::iterator iIt;
+  for(iIt = items->begin(); iIt != items->end(); ++iIt){
+    cout << (*iIt)->getName() << " ";
   }
   cout << endl;
 }

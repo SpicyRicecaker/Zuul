@@ -6,10 +6,10 @@
 #include "Item.h"
 #include "Room.h"
 
-Room::Room(char* newTitle, char* newDesc, vector<Item*>* newItemList, map<char*, char*>* newExits){
+Room::Room(char* newTitle, char* newDesc, vector<Item*>* newItems, map<char*, char*>* newExits){
   title = newTitle;
   desc = newDesc;
-  itemList = newItemList;
+  items = newItems;
   exits = newExits;
 }
 
@@ -20,6 +20,10 @@ char* Room::getTitle(){
 
 char* Room::getDesc(){
   return desc;
+}
+
+vector<Item*>* Room::getItems(){
+  return items;
 }
 
 map<char*, char*>* Room::getExits(){
@@ -33,4 +37,8 @@ Room* Room::getExitRoom(){
 
 void Room::setExit(char* direction, char* destination){
   (*exits)[direction] = destination; 
+}
+
+void Room::addItem(char* itemName){
+  items->push_back(new Item(itemName));
 }

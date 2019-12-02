@@ -12,5 +12,4 @@ class Item {
  private:
   char* name;
 };
-
 #endif

@@ -3,7 +3,7 @@
 #include "Item.h"
 
 Item::Item(char* newName){
-  strcpy(name,newName);
+  name = newName;
 }
 
 char* Item::getName(){

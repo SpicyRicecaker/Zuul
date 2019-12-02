@@ -14,13 +14,15 @@ class Room{
   Room(char*, char*, vector<Item*>*, map<char*, char*>*);
   char* getTitle();
   char* getDesc();
+  vector<Item*>* getItems();
   map<char*, char*>* getExits();
   Room* getExitRoom();
   void setExit(char*, char*);
+  void addItem(char*);
  private:
   char* title;
   char* desc;
-  vector<Item*>* itemList;
+  vector<Item*>* items;
   map<char*, char*>* exits;
 };
 #endif
