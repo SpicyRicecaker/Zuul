@@ -18,8 +18,8 @@ using namespace std;
 
 void buildRoom (map<char*,Room*>*, char*, char*);
 void processInput(char*, char*);
-void processCommand(char* , char* , vector<Command*>*);
-void printExitString(map<char*, Room*>*);
+void processCommand(char* , char* , vector<Command*>*, map<char*, Room*>*, Room**);
+void printExitString(map<char*, char*>*);
 
 int main(){
 
@@ -40,8 +40,10 @@ int main(){
   buildRoom(rm, (char*)"Peter Puffin", (char*)"Really nice but won't let you pass. (Custom Event)(Aggressive/shows true colors if you have the fin. Need safety pin to pass.");
   
   //Adding all the Exits
-  ((*rm)[(char*)"Peter Pan's Jam"])->setExit((char*)"EAST", (*rm)[(char*)"Peter Pan's Fam"]);
-  ((*rm)[(char*)"Peter Pan's Jam"])->setExit((char*)"SOUTH", (*rm)[(char*)"Peter Puffin"]);
+  ((*rm)[(char*)"Peter Pan's Jam"])->setExit((char*)"EAST", (char*)"Peter Pan's Fam");
+  ((*rm)[(char*)"Peter Pan's Jam"])->setExit((char*)"SOUTH", (char*)"Peter Puffin");
+
+  ((*rm)[(char*)"Peter Pan's Fam"])->setExit((char*)"WEST", (char*)"Peter Pan's Jam");
   
   //Inventory
   vector<Item*> bag;
@@ -53,7 +55,8 @@ int main(){
   
   //Current Room
   Room* currentRoom;
-
+  Room** currentRoomptr = &currentRoom;
+  
   //Command string and Keyword string
   char commandsarr[99];
   char* commandstr = commandsarr;
@@ -83,12 +86,12 @@ int main(){
     printExitString(currentRoom->getExits());
     cout << "Items: " << endl;
     processInput(commandstr, keywordstr);
-    processCommand(commandstr, keywordstr, commandsptr);
+    processCommand(commandstr, keywordstr, commandsptr, rm, currentRoomptr);
   }
 }
 
 void buildRoom (map<char*,Room*>* rm, char* rmTitle, char* rmDesc) {
-  (*rm)[rmTitle] = new Room(rmTitle, rmDesc, new vector<Item*>, new map<char*,Room*>);
+  (*rm)[rmTitle] = new Room(rmTitle, rmDesc, new vector<Item*>, new map<char*,char*>);
 }
 
 //process userin, decide if it is one or two words, then return one or two words
@@ -143,11 +146,11 @@ void processInput(char* commandstr, char* keywordstr){
   }
 }
 
-void processCommand(char* commandstr, char* keywordstr, vector<Command*>* commandsptr){
+void processCommand(char* commandstr, char* keywordstr, vector<Command*>* commandsptr, map<char*, Room*>* rm, Room** currentRoomptr){
     vector<Command*>::iterator commandsIt;
     bool found = false;
     for(commandsIt = commandsptr->begin(); commandsIt != commandsptr->end(); ++commandsIt){
-      if(strcmp((*commandsIt)->getDesc(),commandstr) == 0){
+      if(strcmp((*commandsIt)->getDesc(), commandstr) == 0){
 	found = true;
 	break;
       }
@@ -159,9 +162,9 @@ void processCommand(char* commandstr, char* keywordstr, vector<Command*>* comman
       switch (type){
       case HEAD_TYPE:
 	if(strcmp(keywordstr,"") != 0){
-	  ((Head*)(*commandsIt))->doStuff(commandstr, keywordstr);
+	  ((Head*)(*commandsIt))->move(keywordstr, rm, currentRoomptr);
 	}else{
-	  cout << ((Head*)(*commandsIt))->returnBurn() << endl;;
+	  cout << ((Head*)(*commandsIt))->returnBurn() << endl;
 	}
 	break;
       case GRAB_TYPE:
@@ -172,8 +175,8 @@ void processCommand(char* commandstr, char* keywordstr, vector<Command*>* comman
     }
 }
 
-void printExitString(map<char*, Room*>* exits){
-  map<char*, Room*>::iterator it;
+void printExitString(map<char*, char*>* exits){
+  map<char*, char*>::iterator it;
   for(it = exits->begin(); it != exits->end(); ++it){
     cout << it->first << " ";
   }

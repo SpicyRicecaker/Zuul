@@ -6,7 +6,7 @@
 #include "Item.h"
 #include "Room.h"
 
-Room::Room(char* newTitle, char* newDesc, vector<Item*>* newItemList, map<char*, Room*>* newExits){
+Room::Room(char* newTitle, char* newDesc, vector<Item*>* newItemList, map<char*, char*>* newExits){
   title = newTitle;
   desc = newDesc;
   itemList = newItemList;
@@ -22,7 +22,7 @@ char* Room::getDesc(){
   return desc;
 }
 
-map<char*, Room*>* Room::getExits(){
+map<char*, char*>* Room::getExits(){
   //Need to get cardinal directions later
   return exits;
 }
@@ -31,6 +31,6 @@ Room* Room::getExitRoom(){
   //Hashmap direction
 }
 
-void Room::setExit(char* direction, Room* destination){
+void Room::setExit(char* direction, char* destination){
   (*exits)[direction] = destination; 
 }
