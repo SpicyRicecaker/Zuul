@@ -18,7 +18,7 @@ using namespace std;
 
 void buildRoom (map<char*,Room*>*, char*, char*);
 void processInput(char*, char*);
-void processCommand(char* , char* , vector<Command*>*, map<char*, Room*>*, Room**);
+void processCommand(char* , char* , vector<Command*>*, map<char*, Room*>*, Room**, vector<Item*>*);
 void printExitString(map<char*, char*>*);
 void printItemString(vector<Item*>*);
 
@@ -45,7 +45,7 @@ int main(){
   ((*rm)[(char*)"Peter Puffin"])->setExit((char*)"NORTH", (char*)"Peter Pan's Jam");
 
   //Adding all the items!
-  ((*rm)[(char*)"Peter Pan's Jam"])->addItem((char*)"Peter's Jam");
+  ((*rm)[(char*)"Peter Pan's Jam"])->addItem((char*)"Peter's_Jam");
   
   //Inventory
   vector<Item*> bag;
@@ -58,6 +58,7 @@ int main(){
   //Current Room
   Room* currentRoom;
   Room** currentRoomptr = &currentRoom;
+  Room* lastRoom = ((*rm)[(char*)"Peter Pan's Jam"]);
   
   //Command string and Keyword string
   char commandsarr[99];
@@ -67,28 +68,40 @@ int main(){
   
   //Initiating commands
   commandsptr->push_back(new Head((char*)"HEAD"));
+  commandsptr->push_back(new Grab((char*)"GRAB"));
   //commandsptr->push_back(new Command((char*)"Toss"));
-  //commandsptr->push_back(new Command((char*)"Grab"));
+  
   
   bool running = true;
   
   currentRoom = ((*rm)[(char*)"Peter Pan's Jam"]);
 
   cout << "Welcome to the world of Zuul! I'd like to thank my friend Peter Jin for making this game possible, and for helping me code. Peter Pan's Land is a world set in a dystopian future, where capitalism has led to the rise of Peter Jin & Peter Pan. Anyways, have fun playing!" << endl;
+
+  cout << "You are at " << currentRoom->getTitle() << "!" << endl;
+    cout << currentRoom->getDesc() << endl;
+    cout << "Exits: ";
+    printExitString(currentRoom->getExits());
+    cout << "Items: ";
+    printItemString(currentRoom->getItems());
   
   //Print out long description of room.
   //Print out exits
   //Print out items
   //Then process commands
   while(running){
-    cout << "You are at " << currentRoom->getTitle() << "!" << endl;
-    cout << currentRoom->getDesc() << endl;
-    cout << "Exits: ";
-    printExitString(currentRoom->getExits());
-    cout << "Items: ";
-    printItemString(currentRoom->getItems());
+    if(lastRoom != currentRoom){
+      cout << "You are at " << currentRoom->getTitle() << "!" << endl;
+      cout << currentRoom->getDesc() << endl;
+      cout << "Exits: ";
+      printExitString(currentRoom->getExits());
+      cout << "Items: ";
+      printItemString(currentRoom->getItems());
+
+      lastRoom = currentRoom;
+    }
     processInput(commandstr, keywordstr);
-    processCommand(commandstr, keywordstr, commandsptr, rm, currentRoomptr);
+    processCommand(commandstr, keywordstr, commandsptr, rm, currentRoomptr, bagptr);
   }
 }
 
@@ -148,7 +161,7 @@ void processInput(char* commandstr, char* keywordstr){
   }
 }
 
-void processCommand(char* commandstr, char* keywordstr, vector<Command*>* commandsptr, map<char*, Room*>* rm, Room** currentRoomptr){
+void processCommand(char* commandstr, char* keywordstr, vector<Command*>* commandsptr, map<char*, Room*>* rm, Room** currentRoomptr, vector<Item*>* bagptr){
     vector<Command*>::iterator commandsIt;
     bool found = false;
     for(commandsIt = commandsptr->begin(); commandsIt != commandsptr->end(); ++commandsIt){
@@ -170,6 +183,11 @@ void processCommand(char* commandstr, char* keywordstr, vector<Command*>* comman
 	}
 	break;
       case GRAB_TYPE:
+	if(strcmp(keywordstr,"") != 0){
+	  ((Grab*)(*commandsIt))->take(currentRoomptr, bagptr, keywordstr);
+	}else{
+	  cout << ((Grab*)(*commandsIt))->returnBurn() << endl;
+	}
 	break;
       case TOSS_TYPE:
 	break;
