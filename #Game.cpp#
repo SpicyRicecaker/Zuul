@@ -156,5 +156,5 @@ void processCommand(char* commandstr, char* keywordstr, vector<Command*>* comman
 }
 
 void buildRoom (map<char*,char*>* rm, char* rmTitle, char* rmDesc) {
-  
+  (*rm)[rmTitle] = new Room()
 }

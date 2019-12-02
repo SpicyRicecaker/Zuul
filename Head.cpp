@@ -15,5 +15,5 @@ char* Head::returnBurn(){
 }
 
 void Head::doStuff(char* com, char* key){
-  
+  cout << "You did stuff" << endl;
 }
