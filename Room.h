@@ -11,12 +11,14 @@ using namespace std;
 
 class Room{
  public:
-  Room(char*, vector<Item*>*, map<char*, Room*>*);
+  Room(char*, char*, vector<Item*>*, map<char*, Room*>*);
+  char* getTitle();
   char* getDesc();
-  char* getLongDesc();
-  char* getExitString();
+  map<char*, Room*>* getExits();
   Room* getExitRoom();
+  void setExit(char*, Room*);
  private:
+  char* title;
   char* desc;
   vector<Item*>* itemList;
   map<char*, Room*>* exits;

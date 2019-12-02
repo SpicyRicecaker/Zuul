@@ -16,9 +16,10 @@
 
 using namespace std;
 
-void init(bool&, vector<Command*>*, Room*);
+void buildRoom (map<char*,Room*>*, char*, char*);
 void processInput(char*, char*);
 void processCommand(char* , char* , vector<Command*>*);
+void printExitString(map<char*, Room*>*);
 
 int main(){
 
@@ -31,7 +32,16 @@ int main(){
   vector<Room*>* encRoomsptr = &encRooms;
 
   //List of Names of Rooms
-  map<char*, char*> rm = new map<char*, char*>;
+  map<char*, Room*>* rm = new map<char*, Room*>;
+
+  //Adding all the Rooms!
+  buildRoom(rm, (char*)"Peter Pan's Jam", (char*)"Peter Pan is jamming with some songs + dance moves. (Custom Event)(He is spirited away by some EVIL PEANUT BUTTER)");
+  buildRoom(rm, (char*)"Peter Pan's Fam", (char*)"Peter Pan's Nan is there to cheer you on. It fills you with DETERMINATION. (Custom Event)(Peter Pan's Uncle Sam hands you some SPAM and a map.");
+  buildRoom(rm, (char*)"Peter Puffin", (char*)"Really nice but won't let you pass. (Custom Event)(Aggressive/shows true colors if you have the fin. Need safety pin to pass.");
+  
+  //Adding all the Exits
+  ((*rm)[(char*)"Peter Pan's Jam"])->setExit((char*)"EAST", (*rm)[(char*)"Peter Pan's Fam"]);
+  ((*rm)[(char*)"Peter Pan's Jam"])->setExit((char*)"SOUTH", (*rm)[(char*)"Peter Puffin"]);
   
   //Inventory
   vector<Item*> bag;
@@ -50,27 +60,35 @@ int main(){
   char keywordsarr[99];
   char* keywordstr = keywordsarr;
   
-
-  cout << "Welcome to the world of Zuul! I'd like to thank my friend Peter Jin for making this game possible, and for helping me code. Peter Pan's Land is a world set in a dystopian future where capitalism has led to the rise of Peter Jin & Peter Pan. Anyways, have fun playing!" << endl;
+  //Initiating commands
+  commandsptr->push_back(new Head((char*)"HEAD"));
+  //commandsptr->push_back(new Command((char*)"Toss"));
+  //commandsptr->push_back(new Command((char*)"Grab"));
   
-  bool running;
+  bool running = true;
+  
+  currentRoom = ((*rm)[(char*)"Peter Pan's Jam"]);
 
-
-  Room* hi = new Room((char*) "HI", new vector<Item*>, new map<char*, Room*>);
-  init(running, commandsptr, currentRoom);
-
+  cout << "Welcome to the world of Zuul! I'd like to thank my friend Peter Jin for making this game possible, and for helping me code. Peter Pan's Land is a world set in a dystopian future, where capitalism has led to the rise of Peter Jin & Peter Pan. Anyways, have fun playing!" << endl;
+  
+  //Print out long description of room.
+  //Print out exits
+  //Print out items
+  //Then process commands
   while(running){
+    cout << "You are at " << currentRoom->getTitle() << "!" << endl;
+    cout << currentRoom->getDesc() << endl;
+    //Finish this then sleep VVV
+    cout << "Exits: ";
+    printExitString(currentRoom->getExits());
+    cout << "Items: " << endl;
     processInput(commandstr, keywordstr);
     processCommand(commandstr, keywordstr, commandsptr);
   }
 }
 
-void init(bool& running, vector<Command*>* commandsptr, Room* currentRoom){
-  running = true;  
-  commandsptr->push_back(new Head((char*)"HEAD"));
-  //commandsptr->push_back(new Command((char*)"Toss"));
-  //commandsptr->push_back(new Command((char*)"Grab"));
-  //currentRoom = new Room((char*) "Peter Pan's Jam", new vector<Item*>, new map<char*, Room*>);
+void buildRoom (map<char*,Room*>* rm, char* rmTitle, char* rmDesc) {
+  (*rm)[rmTitle] = new Room(rmTitle, rmDesc, new vector<Item*>, new map<char*,Room*>);
 }
 
 //process userin, decide if it is one or two words, then return one or two words
@@ -115,7 +133,6 @@ void processInput(char* commandstr, char* keywordstr){
 	  for(int a = index + 1; a < strlen(in); ++a){
 	    second[a-index-1] = in[a];
 	  }
-	  
 	  strcpy(commandstr,first);
 	  strcpy(keywordstr,second);
 	  break;
@@ -141,7 +158,7 @@ void processCommand(char* commandstr, char* keywordstr, vector<Command*>* comman
       int type = (*commandsIt)->getType();
       switch (type){
       case HEAD_TYPE:
-	if(strcmp(keywordstr,"") == 1){
+	if(strcmp(keywordstr,"") != 0){
 	  ((Head*)(*commandsIt))->doStuff(commandstr, keywordstr);
 	}else{
 	  cout << ((Head*)(*commandsIt))->returnBurn() << endl;;
@@ -155,6 +172,10 @@ void processCommand(char* commandstr, char* keywordstr, vector<Command*>* comman
     }
 }
 
-void buildRoom (map<char*,char*>* rm, char* rmTitle, char* rmDesc) {
-  
+void printExitString(map<char*, Room*>* exits){
+  map<char*, Room*>::iterator it;
+  for(it = exits->begin(); it != exits->end(); ++it){
+    cout << it->first << " ";
+  }
+  cout << endl;
 }
