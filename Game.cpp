@@ -13,6 +13,7 @@
 #define HEAD_TYPE 3
 #define GRAB_TYPE 4
 #define TOSS_TYPE 5
+#define SACK_TYPE 6
 
 using namespace std;
 
@@ -69,7 +70,8 @@ int main(){
   //Initiating commands
   commandsptr->push_back(new Head((char*)"HEAD"));
   commandsptr->push_back(new Grab((char*)"GRAB"));
-  //commandsptr->push_back(new Command((char*)"Toss"));
+  commandsptr->push_back(new Toss((char*)"TOSS"));
+  //commandsptr->push_back(new Sack((char*)"SACK"));
   
   
   bool running = true;
@@ -190,8 +192,15 @@ void processCommand(char* commandstr, char* keywordstr, vector<Command*>* comman
 	}
 	break;
       case TOSS_TYPE:
+	if(strcmp(keywordstr,"") != 0){
+	  ((Toss*)(*commandsIt))->drop(currentRoomptr, bagptr, keywordstr);
+	}else{
+	  cout << ((Toss*)(*commandsIt))->returnBurn() << endl;
+	}
 	break;
-      }      
+      case SACK_TYPE:
+	break;
+      }
     }
 }
 

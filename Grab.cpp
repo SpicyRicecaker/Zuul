@@ -10,7 +10,7 @@ Grab::Grab(char* newDesc) : Command(newDesc){
 
 }
 
-Grab::getType(){
+int Grab::getType(){
   return 4;
 }
 
@@ -28,7 +28,7 @@ void Grab::take(Room** currentRoomptr, vector<Item*>* bag, char* itemName){
     for(int a = 0; a < strlen(inQ); ++a){
       temp[a] = toupper(inQ[a]);
     }
-  if(strcmp((char*)temp, itemName) == 0){
+    if(strcmp((char*)temp, itemName) == 0){
       bag->push_back(new Item(inQ));
       delete (*rmIt);
       rmIt = ((*currentRoomptr)->getItems())->erase(rmIt);
