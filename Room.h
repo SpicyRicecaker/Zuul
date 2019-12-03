@@ -17,6 +17,7 @@ class Room{
   vector<Item*>* getItems();
   map<char*, char*>* getExits();
   Room* getExitRoom();
+  void setDesc(char*);
   void setExit(char*, char*);
   void addItem(char*);
  private:

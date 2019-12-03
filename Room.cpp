@@ -35,6 +35,10 @@ Room* Room::getExitRoom(){
   //Hashmap direction
 }
 
+void Room::setDesc(char* newDesc){
+  desc = newDesc;
+}
+
 void Room::setExit(char* direction, char* destination){
   (*exits)[direction] = destination; 
 }
