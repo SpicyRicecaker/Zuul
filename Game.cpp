@@ -56,7 +56,7 @@ int main(){
   buildRoom(rm, (char*)"Peter Pan's Evil Twin", (char*)"The evil peanut butter swirls on top of Peter Jin's bread top hat. it's time.");
   buildRoom(rm, (char*)"Peter Pan's Milk Can", (char*)"But the legends... could it be? You could'nt possibly be at the illusive milk can house of Peter Pan!");
   buildRoom(rm, (char*)"Peter Jin's Tin Bin", (char*)"It's literally the basement of Jin & Out... molding burger wrappers and crumpled paper cups pile miles high into every direction... It's like Scrooge mcDuck's vault, except full of junk");
-  buildRoom(rm, (char*)"Peter Jin's LITTI IN MY CITY", (char*)"An entire town seems to almost completely be out of power... except for a flickering lampost illuminating an old man sitting on a blue metal bench, reading a newspaper.");
+  buildRoom(rm, (char*)"Peter Jin's LITTI IN MY CITY", (char*)"An entire city seems to almost completely be out of power... except for a flickering lampost illuminating an old man sitting on a blue metal bench, reading a newspaper.");
   buildRoom(rm, (char*)"Peter Jin's South Berlin", (char*)"Seaweed rolls over houses and dry cracked wells... But the streets are far from deserted. You come across a gathering of around a hundred people clamoring over something...");
   //Adding all the default Exits
 
@@ -73,7 +73,7 @@ int main(){
   ((*rm)[(char*)"Peter Pan's Madame Ma'am"])->setExit((char*)"WEST", (char*)"Peter Pan's Clan");
 
   ((*rm)[(char*)"Peter Jin's North Berlin"])->setExit((char*)"SOUTH", (char*)"Peter Pan's Dam");
-  ((*rm)[(char*)"Peter Jin's North Berlin"])->setExit((char*)"EAST", (char*)"Peter Pan's Madame Ma'am");
+  ((*rm)[(char*)"Peter Jin's North Berlin"])->setExit((char*)"WEST", (char*)"Peter Pan's Madame Ma'am");
   
   ((*rm)[(char*)"Peter Puffin"])->setExit((char*)"NORTH", (char*)"Peter Pan's Jam");
   ((*rm)[(char*)"Peter Puffin"])->setExit((char*)"EAST", (char*)"Jin & Out Fanbase");
@@ -114,8 +114,8 @@ int main(){
   ((*rm)[(char*)"Peter Jin's South Berlin"])->setExit((char*)"NORTH", (char*)"Peter Pan's Dam");
   ((*rm)[(char*)"Peter Jin's South Berlin"])->setExit((char*)"WEST", (char*)"Peter Jin's LITTI IN MY CITY");
 
-  //Adding all the default items!
-  ((*rm)[(char*)"Peter Jin's Tin Bin"])->addItem((char*)"Peter's_Jin's_Safety_Pin");
+  //Adding all the **starting** items (MANY more items are added as events play out)!
+  ((*rm)[(char*)"Peter Jin's Tin Bin"])->addItem((char*)"Peter_Jin's_Safety_Pin");
   
   //Inventory
   vector<Item*> bag;
@@ -221,10 +221,11 @@ int main(){
 	for(bagIt = bag.begin(); bagIt != bag.end(); ++bagIt){
 	  if(strcmp((*bagIt)->getName(), "Jin&Out_Burger") == 0){
 	    burgerYes = true;
+	    break;
 	  }else if(strcmp((*bagIt)->getName(), "Jin&Out_Fries") == 0){
 	    friesYes = true;
+	    break;
 	  }
-	  break;
 	}
 	if(burgerYes || friesYes){
 	  cout << "Looks like you could prevent the conflict with some food!" << endl;
@@ -280,9 +281,56 @@ int main(){
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Puffin"]){
       if(ev[5] == true){
-        ((*rm)[(char*)"Peter Puffin"])->addItem((char*)"Peter_Pan's_Mandarin");
-	ev[5] = 2;
-	printRoomString(currentRoom);
+	vector<Item*>::iterator bagIt;
+	bool finYes = false;
+	bool pinYes = false;
+	for(bagIt = bag.begin(); bagIt != bag.end(); ++bagIt){
+	  if(strcmp((*bagIt)->getName(), "Peter_Jin's_Fin") == 0){
+	    finYes = true;
+	  }else if(strcmp((*bagIt)->getName(), "Peter_Jin's_Safety_Pin") == 0){
+	    pinYes = true;
+	  }
+	}
+	char buffer[999] = "";
+	if(finYes && pinYes){
+	  cout << "Hey, that's my fin! Gimme!" << endl;
+	  cin.get(buffer, 1);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+	  cout << "The pufferfish starts to expand at a rapid pace!" << endl;
+	  cin.get(buffer, 1);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+	  cout << "Luckily, Peter Jin's Safety Pin was sticking out of your bag at just the right angle, and the pufferfish gets caught at the point and rapidly deflates." << endl;
+	  cin.get(buffer, 1);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+
+	  cout << "The only trace of the once grandiose creature is a small but plump mandarin..." << endl;
+
+	  ((*rm)[(char*)"Peter Puffin"])->setDesc((char*)"RIP Peter Puffin (2019-2019)");
+
+	  
+          ((*rm)[(char*)"Peter Puffin"])->addItem((char*)"Peter_Jin's_Mandarin");
+
+	  printRoomString(currentRoom);
+	  ev[5] = 2;
+	}else if(finYes && pinYes == false){
+	  cout << "Hey, that's my fin! Gimme!" << endl;
+	  cin.get(buffer, 1);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+	  cout << "The pufferfish starts to expand at a rapid pace!" << endl;
+	  cin.get(buffer, 1);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+	  cout << "(You barely make it out of the room before you're impaled to the wall by poisonous spikes)" << endl;
+	  cin.get(buffer, 1);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+	  
+	  currentRoom = ((*rm)[(char*)"Peter Pan's Jam"]);
+	}
       }
     }else if(currentRoom == (*rm)[(char*)"Jin & Out Fanbase"]){
       if(ev[6] == true){
@@ -342,8 +390,46 @@ int main(){
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Jin's Inn"]){
       if(ev[8] == true){
+	((*rm)[(char*)"Peter Jin's Inn"])->addItem((char*)"Peter_Jin's_Fin");
 	ev[8] = 2;
 	printRoomString(currentRoom);
+      }else if(ev[8] == 2){
+	char buffer [999] = "";
+	vector<Item*>::iterator bagIt;
+	bool mandYes = false;
+	for(bagIt = bag.begin(); bagIt != bag.end(); ++bagIt){
+	  if(strcmp((*bagIt)->getName(), "Peter_Jin's_Mandarin") == 0){
+	    mandYes = true;
+	    delete (*bagIt);
+	    bagIt = bag.erase(bagIt);
+	    break;
+	  }
+	}
+
+	if(mandYes){
+	  cout << "(Mr.sbarK is drawn out into the dining area by a citrus odor)" << endl;
+	  cin.get(buffer, 1);
+	  cin.clear();
+	  cin.ignore(999,'\n');
+	  cout << "Ooh, yummy orange! Gimme~" << endl;
+	  cin.get(buffer, 1);
+	  cin.clear();
+	  cin.ignore(999,'\n');
+	  cout << "(Mr.sbarK helps himself to Peter Jin's Mandarin)" << endl;
+	  cin.get(buffer, 1);
+	  cin.clear();
+	  cin.ignore(999,'\n');
+	  cout << "(Suddenly, Mr.s'sbarK leg grows back!)" << endl;
+	  cin.get(buffer, 1);
+	  cin.clear();
+	  cin.ignore(999,'\n');
+	  cout << "Ok wow, you beat the puffer, I owe great debt, you're so cool, etc. etc." << endl;
+	  cin.get(buffer, 1);
+	  cin.clear();
+	  cin.ignore(999,'\n');
+          cout << "Mr.sbarK has joined the party!" << endl;
+	  ev[8] = 3;
+	}
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Pan's Dam"]){
       if(ev[9] == true && strcmp(commandstr, "TALK") == 0){
@@ -368,7 +454,12 @@ int main(){
 	  //Dam
 	  ev[9] = 2;
 	  //LITTI CITY
-	  
+	  ev[13] = 2;
+
+	  ((*rm)[(char*)"Peter Pan's Dam"])->setDesc((char*)"Birds chirp and fish splash as the water flows through the dam, as smooth as silk!");
+
+	((*rm)[(char*)"Peter Jin's LITTI IN MY CITY"])->setDesc((char*)"Peter Jin's LITTI IN MY CITY looks beautiful when lit up at night, looming palaces overlooking serene lakes, and elegant lampposts blazing on every street...");
+	
 	  printRoomString(currentRoom);
         }
       }
@@ -379,8 +470,77 @@ int main(){
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Pan's Milk Can"]){
       if(ev[11] == true){
-	ev[11] = 2;
-	printRoomString(currentRoom);
+	char scrollText [999] = "";
+	vector<Item*>::iterator bagIt;
+	bool ramYes = false;
+	bool lambYes = false;
+	bool fanYes = false;
+	bool panYes = false;
+	for(bagIt = bag.begin(); bagIt != bag.end(); ++bagIt){
+	  if(strcmp((*bagIt)->getName(), "Peter_Pan's_Ram") == 0){
+	    ramYes = true;
+	  }else if(strcmp((*bagIt)->getName(), "Peter_Pan's_Lamb") == 0){
+	    lambYes = true;
+	  }else if(strcmp((*bagIt)->getName(), "Peter_Jin's_Fan") == 0){
+	    fanYes = true;
+	  }else if(strcmp((*bagIt)->getName(), "Peter_Jin's_Saucepan") == 0){
+	    panYes = true;
+	  }
+	}
+
+        if(ramYes && lambYes && fanYes && panYes && ev[8]==2){
+	  cout << "You have all the requirements to begin cooking!" << endl;
+	  cout << "Start? (y/n)" << endl;
+
+	  char buffer[3] = "";
+	  
+      	  cin.get(buffer, 3);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+
+	  buffer[0] = toupper(buffer[0]);
+	  
+	  if(buffer[0] == 'Y' && strlen(buffer) == 1){
+	    for(bagIt = bag.begin(); bagIt != bag.end(); ){
+	      if(strcmp((*bagIt)->getName(), "Peter_Pan's_Ram") == 0){
+	        delete (*bagIt);
+		bagIt = bag.erase(bagIt);
+	      }else if(strcmp((*bagIt)->getName(), "Peter_Pan's_Lamb") == 0){
+	        delete (*bagIt);
+		bagIt = bag.erase(bagIt);
+	      }else if(strcmp((*bagIt)->getName(), "Peter_Jin's_Fan") == 0){
+		delete (*bagIt);
+		bagIt = bag.erase(bagIt);
+	      }else if(strcmp((*bagIt)->getName(), "Peter_Jin's_Saucepan") == 0){
+		delete (*bagIt);
+		bagIt = bag.erase(bagIt);
+	      }else{
+		++bagIt;
+	      }
+	    }
+	  ev[11] = 2;
+	  cout << "Mr.sbarK helps you put the saucepan on the stove..." << endl;
+	  cin.get(scrollText, 1);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+	  cout << "You snap the fan open and start to fan the fire... wait, is that even doing anything?" << endl;
+	  cin.get(scrollText, 1);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+	  cout << "You take the WOOL from the lamb and ram, to use as all-natural protein, as to not offend PETA" << endl;
+	  cin.get(scrollText, 1);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+	  cout << "Then you stir... and WA-LA! Peter Pan's Universal Flan appears in front of you!" << endl;
+	  cin.get(scrollText, 1);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+	  cout << "It turns out that Mr.sbarK is actually Mr.Krabs from spongebob! Wow! He adds this recipe to his prabby catties, with a patent on it, and you live happily ever after, rich for the rest of your life! (Sorry, short on time, GGs tho! Thx for playing!" << endl;
+	  exit(0);
+	  
+	  printRoomString(currentRoom);
+	  }  
+	  }
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Jin's Tin Bin"]){
       if(ev[12] == true){
@@ -388,23 +548,22 @@ int main(){
 	printRoomString(currentRoom);
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Jin's LITTI IN MY CITY"]){
-      if(ev[13] == true){
-	ev[13] = 2;
+      if(ev[13] == 2){
 	printRoomString(currentRoom);
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Jin's South Berlin"]){
-
-      if(ev[4] == true && strcmp(commandstr, "TALK") == 0){
+      if(ev[14] == true && strcmp(commandstr, "TALK") == 0){
 	vector<Item*>::iterator bagIt;
 	bool friesYes = false;
 	bool burgerYes = false;
 	for(bagIt = bag.begin(); bagIt != bag.end(); ++bagIt){
 	  if(strcmp((*bagIt)->getName(), "Jin&Out_Burger") == 0){
 	    burgerYes = true;
+	    break;
 	  }else if(strcmp((*bagIt)->getName(), "Jin&Out_Fries") == 0){
 	    friesYes = true;
+	    break;
 	  }
-	  break;
 	}
 	if(burgerYes || friesYes){
 	  cout << "Looks like you could prevent the conflict with some food!" << endl;
@@ -448,7 +607,7 @@ int main(){
 	      cout << "The moment you pull out the fries, the ram is instantly forgotten about, and the mob nearly rolls you over to get their hands on the burger. Satisfied, the mosh pit then slides north down the hill like the avalanche from a storm. All that's left is a lamb. Wait, it wasn't a ram?" << endl;
 	    }
 	    
-	    ((*rm)[(char*)"Peter Jin's North Berlin"])->setDesc((char*)"Seaweed rolls over houses and dry cracked wells... But the streets are far from deserted. Just recently, a gathering of around a hundred people stormed south, leaving footprints randomly plastered about the ground...");
+	    ((*rm)[(char*)"Peter Jin's South Berlin"])->setDesc((char*)"Seaweed rolls over houses and dry cracked wells... But the streets are far from deserted. Just recently, a gathering of around a hundred people stormed south, leaving footprints randomly plastered about the ground...");
 	    ev[14] = 2;
 	    printRoomString(currentRoom);
 	  }else{

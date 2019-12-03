@@ -126,11 +126,14 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.clear();
       cin.ignore(999, '\n');
       ev[5] = true;
-    }else{
+    }else if(ev[5] == true){
       cout << "Hey there! Sorry, but I'll have to pass on letting you pass!" << endl;
       cin.get(scrollText, 999);
       cin.clear();
       cin.ignore(999, '\n');
+      //After it's gone
+    }else{
+      cout << "*blub* *blub*" << endl;
     }
   }else if(strcmp((*currentRoom)->getTitle(), "Jin & Out Fanbase") == 0){
     if(ev[6] == false){
@@ -215,8 +218,10 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.ignore(999, '\n');
       ev[8] = true;
       //do stuff
-    }else{
+    }else if (ev[8] == true){
       cout << "(Mr.sbarK is still in the kitchen...)" << endl;
+    }else{
+      cout << "(Mr.sbarK is in the party!)" << endl;
     }
   }else if(strcmp((*currentRoom)->getTitle(), "Peter Pan's Dam") == 0){
     if(ev[9] == false){
@@ -228,8 +233,8 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.get(scrollText, 999);
       cin.clear();
       cin.ignore(999, '\n');
-      //ev[9] = true;
-    }else if(ev[9] = true){
+      ev[9] = true;
+    }else if(ev[9] == true){
       cout << "Ehehehehe~~" << endl;
     }else{
       cout << "Nuhuhuhuhu" << endl;
@@ -307,8 +312,10 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.clear();
       cin.ignore(999, '\n');
       ev[13] = true;
-    }else{
+    }else if (ev[13] == true){
       cout << "(The old man grumbles on...)" << endl;
+    }else{
+      cout << "Bah! Back in my day, we read books by candlelight!" << endl;
     }
   }else if(strcmp((*currentRoom)->getTitle(), "Peter Jin's South Berlin") == 0){
     if(ev[14] == false){
