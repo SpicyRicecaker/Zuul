@@ -14,15 +14,20 @@ int Head::getType(){
 }
 
 char* Head::returnBurn(){
-  return (char*) "You head in the clouds.";
+  return (char*) "You head in the clouds. (Input cardinal direction)";
 }
 
 void Head::move(char* key, map<char*, Room*>* rm, Room **currentRoomptr){
   map<char*, char*>::iterator eIt;
   map<char*, char*>* exits = (*currentRoomptr)->getExits();
+  bool found = false;
   for(eIt = exits->begin(); eIt != exits->end(); ++eIt){
     if(strcmp(eIt->first, key) == 0){
       (*currentRoomptr) = ((*rm)[eIt->second]);
+      found = true;
     }
+  }
+  if(found == false){
+    cout << "No direction found!" << endl;
   }
 }
