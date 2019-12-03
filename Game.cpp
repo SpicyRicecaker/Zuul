@@ -47,7 +47,7 @@ int main(){
   buildRoom(rm, (char*)"Peter Pan's Fam", (char*)"Peter Pan's Nan is there to cheer you on. It fills you with DETERMINATION.");
   buildRoom(rm, (char*)"Peter Pan's Clan", (char*)"Peter Pan's former clan is in tears after they heard about Peter Pan's fast departure.");
   buildRoom(rm, (char*)"Peter Pan's Madame Ma'am", (char*)"In front of you is a hearty little farm, with a tidy house and a large barn. On the front porch a woman sweeps the floor.");
-  buildRoom(rm, (char*)"Peter Jin's North Berlin", (char*)"Tumbleweeds roll over houses and dush-filled wells... But the streets are far from lively. You come across a gathering of around a hundred people clamoring over something...");
+  buildRoom(rm, (char*)"Peter Jin's North Berlin", (char*)"Tumbleweeds roll over houses and dush-filled wells... But the streets are far from deserted. You come across a gathering of around a hundred people clamoring over something...");
   buildRoom(rm, (char*)"Peter Puffin", (char*)"As you walk in a small pufferfish the size of a pea inflates into the size of two elephants. It stares you down with somewhat kind eyes...");
   buildRoom(rm, (char*)"Jin & Out Fanbase", (char*)"Out in the distance a big broccoli building with the shape of a fan stands firm on a hill, with so many thousands of people entering in and out of the building that you wonder if your eyes are playing tricks on you. But that's weird. Just a few days ago, wasn't there nothing? You spot a guy cooling himself off with a fan in the corner...");
   buildRoom(rm, (char*)"Jin & Out", (char*)"A building the size of a skyscraper towers over the middle of a densely populated city. Employees can be seen hurrying from floor to floor through the pristine glass windows. Then you look up, and see a column of black smoke rupturing from the top of the restraunt. A worker in red and yellow runs towards you.");
@@ -57,7 +57,7 @@ int main(){
   buildRoom(rm, (char*)"Peter Pan's Milk Can", (char*)"But the legends... could it be? You could'nt possibly be at the illusive milk can house of Peter Pan!");
   buildRoom(rm, (char*)"Peter Jin's Tin Bin", (char*)"It's literally the basement of Jin & Out... molding burger wrappers and crumpled paper cups pile miles high into every direction... It's like Scrooge mcDuck's vault, except full of junk");
   buildRoom(rm, (char*)"Peter Jin's LITTI IN MY CITY", (char*)"An entire town seems to almost completely be out of power... except for a flickering lampost illuminating an old man sitting on a blue metal bench, reading a newspaper.");
-  buildRoom(rm, (char*)"Peter Jin's South Berlin", (char*)"Seaweed rolls over houses and dry cracked wells... But the streets are far from lively. You come across a gathering of around a hundred people clamoring over something...");
+  buildRoom(rm, (char*)"Peter Jin's South Berlin", (char*)"Seaweed rolls over houses and dry cracked wells... But the streets are far from deserted. You come across a gathering of around a hundred people clamoring over something...");
   //Adding all the default Exits
 
   ((*rm)[(char*)"Peter Pan's Fam"])->setExit((char*)"WEST", (char*)"Peter Pan's Jam");
@@ -70,7 +70,7 @@ int main(){
 
   ((*rm)[(char*)"Peter Pan's Madame Ma'am"])->setExit((char*)"EAST", (char*)"Peter Jin's North Berlin");
   ((*rm)[(char*)"Peter Pan's Madame Ma'am"])->setExit((char*)"SOUTH", (char*)"Peter Jin's Inn");
-  ((*rm)[(char*)"Peter Pan's Madame Ma'am"])->setExit((char*)"WEST", (char*)"Peter Jin's Clan");
+  ((*rm)[(char*)"Peter Pan's Madame Ma'am"])->setExit((char*)"WEST", (char*)"Peter Pan's Clan");
 
   ((*rm)[(char*)"Peter Jin's North Berlin"])->setExit((char*)"SOUTH", (char*)"Peter Pan's Dam");
   ((*rm)[(char*)"Peter Jin's North Berlin"])->setExit((char*)"EAST", (char*)"Peter Pan's Madame Ma'am");
@@ -214,15 +214,73 @@ int main(){
 	printRoomString(currentRoom);
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Jin's North Berlin"]){
-      if(ev[4] == true){
-	ev[4] = 2;
-	printRoomString(currentRoom);
+      if(ev[4] == true && strcmp(commandstr, "TALK") == 0){
+	vector<Item*>::iterator bagIt;
+	bool friesYes = false;
+	bool burgerYes = false;
+	for(bagIt = bag.begin(); bagIt != bag.end(); ++bagIt){
+	  if(strcmp((*bagIt)->getName(), "Jin&Out_Burger") == 0){
+	    burgerYes = true;
+	  }else if(strcmp((*bagIt)->getName(), "Jin&Out_Fries") == 0){
+	    friesYes = true;
+	  }
+	  break;
+	}
+	if(burgerYes || friesYes){
+	  cout << "Looks like you could prevent the conflict with some food!" << endl;
+	  if(burgerYes){
+	    cout << "Offer Jin & Out Burger? (y/n)" << endl;
+	  }else{
+	    cout << "Offer Jin & Out Fries? (y/n)" << endl;
+	  }
+
+	  char buffer[3] = "";
+	  
+      	  cin.get(buffer, 3);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+
+	  buffer[0] = toupper(buffer[0]);
+	  
+	  if(buffer[0] == 'Y' && strlen(buffer) == 1){
+	    for(bagIt = bag.begin(); bagIt != bag.end(); ){
+	      if(burgerYes){
+		if(strcmp((*bagIt)->getName(), "Jin&Out_Burger") == 0){
+	          delete (*bagIt);
+		  bagIt = bag.erase(bagIt);
+		}else{
+		  ++bagIt;
+		}
+	      }else{
+		if(strcmp((*bagIt)->getName(), "Jin&Out_Fries") == 0){
+	          delete (*bagIt);
+		  bagIt = bag.erase(bagIt);
+		}else{
+		  ++bagIt;
+		}
+	      }
+	    }
+	    ((*rm)[(char*)"Peter Jin's North Berlin"])->addItem((char*)"Peter_Pan's_Ram");
+
+	    if(burgerYes){
+	      cout << "The moment you pull out the burger, the lamb is instantly forgotten about, and the mob nearly rolls you over to get their hands on the burger. Satisfied, the mosh pit then slides south down the hill like the avalanche from a storm. All that's left is a ram. Wait, it wasn't a lamb?" << endl;
+	    }else{
+	      cout << "The moment you pull out the fries, the lamb is instantly forgotten about, and the mob nearly rolls you over to get their hands on the burger. Satisfied, the mosh pit then slides south down the hill like the avalanche from a storm. All that's left is a ram. Wait, it wasn't a lamb?" << endl;
+	    }
+	     
+	    
+	    ((*rm)[(char*)"Peter Jin's North Berlin"])->setDesc((char*)"Tumbleweeds roll over houses and dush-filled wells... But the streets are far from deserted. Just recently, a gathering of around a hundred people stormed south, leaving footprints randomly plastered about the ground...");
+	    
+	    ev[4] = 2;
+	    printRoomString(currentRoom);
+	  }else{
+	    cout << "You decide to bide your time and wait for the oppurtune moment. Wait, did the cook just roll in a cast iron pot?" << endl;
+	  }
+	}
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Puffin"]){
       if(ev[5] == true){
-	
         ((*rm)[(char*)"Peter Puffin"])->addItem((char*)"Peter_Pan's_Mandarin");
-
 	ev[5] = 2;
 	printRoomString(currentRoom);
       }
@@ -235,9 +293,52 @@ int main(){
 	printRoomString(currentRoom);
       }
     }else if(currentRoom == (*rm)[(char*)"Jin & Out"]){
-      if(ev[7] == true){
-	ev[7] = 2;
-	printRoomString(currentRoom);
+      if(ev[7] == true && strcmp(commandstr, "TALK") == 0){
+	vector<Item*>::iterator bagIt;
+	bool yamYes = false;
+	bool spamYes = false;
+	for(bagIt = bag.begin(); bagIt != bag.end(); ++bagIt){
+	  if(strcmp((*bagIt)->getName(), "Peter_Pan's_Yam") == 0){
+	    yamYes = true;
+	  }else if(strcmp((*bagIt)->getName(), "Peter_Pan's_SPAM") == 0){
+	    spamYes = true;
+	  }
+	}
+	if(yamYes && spamYes){
+	  cout << "Whoa, you have both! Could I take these to the kitchen? I'll pay you back a portion of this in fast food!" << endl;
+	  cout << "Give Yam and Spam? (y/n)" << endl;
+
+	  char buffer[3] = "";
+	  
+      	  cin.get(buffer, 3);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+
+	  buffer[0] = toupper(buffer[0]);
+	  
+	  if(buffer[0] == 'Y' && strlen(buffer) == 1){
+	    for(bagIt = bag.begin(); bagIt != bag.end(); ){
+	      if(strcmp((*bagIt)->getName(), "Peter_Pan's_Yam") == 0){
+	        delete (*bagIt);
+		bagIt = bag.erase(bagIt);
+	      }else if(strcmp((*bagIt)->getName(), "Peter_Pan's_SPAM") == 0){
+	        delete (*bagIt);
+		bagIt = bag.erase(bagIt);
+	      }else{
+		++bagIt;
+	      }
+	    }
+	    ((*rm)[(char*)"Jin & Out"])->addItem((char*)"Jin&Out_Burger");
+	    ((*rm)[(char*)"Jin & Out"])->addItem((char*)"Jin&Out_Fries");
+
+	    ((*rm)[(char*)"Jin & Out"])->setDesc((char*)"A building the size of a skyscraper towers over the middle of a densely populated city. Employees can be seen hurrying from floor to floor through the pristine glass windows. Then you look up, and no longer see a column of smoke erupting from the building.");
+	    
+	    ev[7] = 2;
+	    printRoomString(currentRoom);
+	  }else{
+	    cout << "Oh that's too bad then...(The smoke continues to pour from the tower)" << endl;
+	  }
+	}
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Jin's Inn"]){
       if(ev[8] == true){
@@ -245,9 +346,31 @@ int main(){
 	printRoomString(currentRoom);
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Pan's Dam"]){
-      if(ev[9] == true){
-	ev[9] = 2;
-	printRoomString(currentRoom);
+      if(ev[9] == true && strcmp(commandstr, "TALK") == 0){
+	if(ev[4] == 2 && ev[14] == 2){
+	  char scrollText[999] = "";
+	  cout << "Huehuehuehuehuehu--" << endl;
+	  cin.get(scrollText,1);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+	  cout << "PinkFluffyUnicornClam's evil laughter is cut short as two moshpits collide together on top of the clam." << endl;
+	  cin.get(scrollText,1);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+	  cout << "As the unicorn clam shifts an inch, a resounding crack resonated throughout the dam, and the water began pouring forth." << endl;
+	  cin.get(scrollText,1);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+	  cout << "Clam and human were flushed down the river...(safely), and a flickering could be heard in the distance..." << endl;
+	  //Berlin
+	  ev[4] = 3;
+	  ev[14] = 3;
+	  //Dam
+	  ev[9] = 2;
+	  //LITTI CITY
+	  
+	  printRoomString(currentRoom);
+        }
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Pan's Evil Twin"]){
       if(ev[10] == true){
@@ -270,9 +393,68 @@ int main(){
 	printRoomString(currentRoom);
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Jin's South Berlin"]){
-      if(ev[14] == true){
-	ev[14] = 2;
-	printRoomString(currentRoom);
+
+      if(ev[4] == true && strcmp(commandstr, "TALK") == 0){
+	vector<Item*>::iterator bagIt;
+	bool friesYes = false;
+	bool burgerYes = false;
+	for(bagIt = bag.begin(); bagIt != bag.end(); ++bagIt){
+	  if(strcmp((*bagIt)->getName(), "Jin&Out_Burger") == 0){
+	    burgerYes = true;
+	  }else if(strcmp((*bagIt)->getName(), "Jin&Out_Fries") == 0){
+	    friesYes = true;
+	  }
+	  break;
+	}
+	if(burgerYes || friesYes){
+	  cout << "Looks like you could prevent the conflict with some food!" << endl;
+	  if(burgerYes){
+	    cout << "Offer Jin & Out Burger? (y/n)" << endl;
+	  }else{
+	    cout << "Offer Jin & Out Fries? (y/n)" << endl;
+	  }
+
+	  char buffer[3] = "";
+	  
+      	  cin.get(buffer, 3);
+	  cin.clear();
+	  cin.ignore(999, '\n');
+
+	  buffer[0] = toupper(buffer[0]);
+	  
+	  if(buffer[0] == 'Y' && strlen(buffer) == 1){
+	    for(bagIt = bag.begin(); bagIt != bag.end(); ){
+	      if(burgerYes){
+		if(strcmp((*bagIt)->getName(), "Jin&Out_Burger") == 0){
+	          delete (*bagIt);
+		  bagIt = bag.erase(bagIt);
+		}else{
+		  ++bagIt;
+		}
+	      }else{
+		if(strcmp((*bagIt)->getName(), "Jin&Out_Fries") == 0){
+	          delete (*bagIt);
+		  bagIt = bag.erase(bagIt);
+		}else{
+		  ++bagIt;
+		}
+	      }
+	    }
+	    ((*rm)[(char*)"Peter Jin's South Berlin"])->addItem((char*)"Peter_Pan's_Lamb");
+
+	    if(burgerYes){
+	      cout << "The moment you pull out the burger, the ram is instantly forgotten about, and the mob nearly rolls you over to get their hands on the burger. Satisfied, the mosh pit then slides north down the hill like the avalanche from a storm. All that's left is a lamb. Wait, it wasn't a ram?" << endl;
+	    }else{
+	      cout << "The moment you pull out the fries, the ram is instantly forgotten about, and the mob nearly rolls you over to get their hands on the burger. Satisfied, the mosh pit then slides north down the hill like the avalanche from a storm. All that's left is a lamb. Wait, it wasn't a ram?" << endl;
+	    }
+	    
+	    ((*rm)[(char*)"Peter Jin's North Berlin"])->setDesc((char*)"Seaweed rolls over houses and dry cracked wells... But the streets are far from deserted. Just recently, a gathering of around a hundred people stormed south, leaving footprints randomly plastered about the ground...");
+	    ev[14] = 2;
+	    printRoomString(currentRoom);
+	  }else{
+	    cout << "You decide to bide your time and wait for the oppurtune moment. Wait, did the cook just bring in salt and pepper shakers? And some ketchup?" << endl;
+	  }
+	}
       }
     }
   }
