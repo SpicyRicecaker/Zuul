@@ -1,3 +1,10 @@
+/*
+
+
+
+*/
+
+
 #include <iostream>
 #include <cstring>
 #include <vector>
@@ -481,14 +488,14 @@ int main(){
 	    ramYes = true;
 	  }else if(strcmp((*bagIt)->getName(), "Peter_Pan's_Lamb") == 0){
 	    lambYes = true;
-	  }else if(strcmp((*bagIt)->getName(), "Peter_Jin's_Fan") == 0){
+	  }else if(strcmp((*bagIt)->getName(), "Peter_Pan's_Fan") == 0){
 	    fanYes = true;
-	  }else if(strcmp((*bagIt)->getName(), "Peter_Jin's_Saucepan") == 0){
+	  }else if(strcmp((*bagIt)->getName(), "Peter_Pan's_Saucepan") == 0){
 	    panYes = true;
 	  }
 	}
 
-        if(ramYes && lambYes && fanYes && panYes && ev[8]==2){
+        if(ramYes && lambYes && fanYes && panYes && ev[8]==3){
 	  cout << "You have all the requirements to begin cooking!" << endl;
 	  cout << "Start? (y/n)" << endl;
 
