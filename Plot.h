@@ -10,5 +10,5 @@ class Plot : public Command {
   Plot(char*);
   int getType();
   char* returnBurn();
-  void printMap(Room**, map<char*, Room*>*, vector<Room*>*);
+  void printMap(Room**, map<char*, Room*>*, vector<char*>*);
 };

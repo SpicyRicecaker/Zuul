@@ -8,6 +8,7 @@
 #include "Command.h"
 #include "Head.h"
 #include "Grab.h"
+
 #include "Toss.h"
 #include "Sack.h"
 #include "Talk.h"
@@ -26,7 +27,7 @@ using namespace std;
 
 void buildRoom (map<char*,Room*>*, char*, char*);
 void processInput(char*, char*);
-void processCommand(char* , char* , vector<Command*>*, map<char*, Room*>*, Room**, vector<Item*>*, vector<Command*>*, vector<Room*>*);
+void processCommand(char* , char* , vector<Command*>*, map<char*, Room*>*, Room**, vector<Item*>*, vector<Command*>*, vector<char*>*);
 void printExitString(map<char*, char*>*);
 void printItemString(vector<Item*>*);
 void printRoomString(Room*);
@@ -34,8 +35,8 @@ void printRoomString(Room*);
 int main(){
   
   //List of Visited Rooms (for Map)
-  vector<Room*> encRooms;
-  vector<Room*>* encRoomsptr = &encRooms;
+  vector<char*> encRooms;
+  vector<char*>* encRoomsptr = &encRooms;
 
   //List of Rooms
   map<char*, Room*>* rm = new map<char*, Room*>;
@@ -43,18 +44,80 @@ int main(){
   //Adding all the Rooms!
   buildRoom(rm, (char*)"Peter Pan's Jam", (char*)"Peter Pan is jamming with some songs + dance moves.");
   buildRoom(rm, (char*)"Peter Pan's Fam", (char*)"Peter Pan's Nan is there to cheer you on. It fills you with DETERMINATION.");
-  buildRoom(rm, (char*)"Peter Pan's Clan", (char*)"Peter Pan's former clan is in tears after they heard about Peter Pan's fast departure. (Custom Event Event)(Peter Pan's Saucepan)");
-  buildRoom(rm, (char*)"Peter Pan's Madame Ma'am", (char*)"I told that Peter Pan that he should've just stayed with his fam on the farm! That young man pan, not a wise man! (Custom Event)(Peter Pan's Yam)");
-  buildRoom(rm, (char*)"Peter Jin's North Berlin", (char*)"Peter Pan's P (Custom Event)(Peter Pan's Yam)");
-  buildRoom(rm, (char*)"Peter Puffin", (char*)"Really nice but won't let you pass. (Custom Event)(Aggressive/shows true colors if you have the fin. Need safety pin to pass.");
-  
-  //Adding all the Exits
+  buildRoom(rm, (char*)"Peter Pan's Clan", (char*)"Peter Pan's former clan is in tears after they heard about Peter Pan's fast departure.");
+  buildRoom(rm, (char*)"Peter Pan's Madame Ma'am", (char*)"You arrive upon a hearty little farm and see a woman sweeping the floor.");
+  buildRoom(rm, (char*)"Peter Jin's North Berlin", (char*)"You see tumbleweed rolling over houses and dush-filled wells... But the streets are far from lively. You come across a gathering of around a hundred people clamoring over something... (Custom Event)(Peter Pan's Yam)");
+  buildRoom(rm, (char*)"Peter Puffin", (char*)"As you walk in a small pufferfish the size of a pea inflates into the size of two elephants. It stares you down with somewhat kind eyes...(Custom Event)(Aggressive/shows true colors if you have the fin. Need safety pin to pass.");
+  buildRoom(rm, (char*)"Jin & Out Fanbase", (char*)"You come across a big broccoli building in the shape of a fan, with so many thousands of people entering in and out of the building that you wonder if your eyes are playing tricks on you. But that's weird. Just a few days ago, wasn't there nothing? You spot a guy cooling himself off with a fan in the corner...");
+  buildRoom(rm, (char*)"Jin & Out", (char*)"You come across a building the size of a skyscraper in the middle of a densely populated city. Employees can be seen hurrying from floor to floor through the pristine glass windows. Then you look up, and see a column of black smoke rupturing from the top of the restraunt. A worker in red and yellow runs towards you.");
+  buildRoom(rm, (char*)"Peter Jin's Inn", (char*)"You come across a cozy chest-shaped inn frying buns and flipping prabby catties.");
+  buildRoom(rm, (char*)"Peter Pan's Dam", (char*)"You come across a huge dam dividing the two rival kingdoms. But that's weird... There's no water flowing down! Could it be because of the clam flexing its tongue in the middle?");
+  buildRoom(rm, (char*)"Peter Pan's Evil Twin", (char*)"The evil peanut butter swirls on top of Peter Jin's bread top hat. it's time.");
+  buildRoom(rm, (char*)"Peter Pan's Milk Can", (char*)"But the legends... could it be? The illusive milk can house of Peter Pn?");
+  buildRoom(rm, (char*)"Peter Jin's Tin Bin", (char*)"It's literally the basement of Jin & Out... molding burger wrappers and crumpled paper cups pile miles high into every direction... It's scrooge mcDuck's vault, except full of junk");
+  buildRoom(rm, (char*)"Peter Jin's LITTI IN MY CITY", (char*)"An entire town seems to almost completely be out of power... except for a flickering lampost illuminating an old man sitting on a blue metal bench, reading a newspaper.");
+  buildRoom(rm, (char*)"Peter Jin's South Berlin", (char*)"You see seaweed rolling over houses and dry cracked wells... But the streets are far from lively. You come across a gathering of around a hundred people clamoring over something... (Custom Event)(Peter Pan's Yam)");
+  //Adding all the default Exits
    
   ((*rm)[(char*)"Peter Pan's Fam"])->setExit((char*)"WEST", (char*)"Peter Pan's Jam");
+  ((*rm)[(char*)"Peter Pan's Fam"])->setExit((char*)"SOUTH", (char*)"Jin & Out Fanbase");
+  ((*rm)[(char*)"Peter Pan's Fam"])->setExit((char*)"EAST", (char*)"Peter Pan's Clan");
 
+  ((*rm)[(char*)"Peter Pan's Clan"])->setExit((char*)"EAST", (char*)"Peter Pan's Madame Ma'am");
+  ((*rm)[(char*)"Peter Pan's Clan"])->setExit((char*)"SOUTH", (char*)"Jin & Out");
+  ((*rm)[(char*)"Peter Pan's Clan"])->setExit((char*)"WEST", (char*)"Peter Pan's Fam");
+
+  ((*rm)[(char*)"Peter Pan's Madame Ma'am"])->setExit((char*)"EAST", (char*)"Peter Jin's North Berlin");
+  ((*rm)[(char*)"Peter Pan's Madame Ma'am"])->setExit((char*)"SOUTH", (char*)"Peter Jin's Inn");
+  ((*rm)[(char*)"Peter Pan's Madame Ma'am"])->setExit((char*)"WEST", (char*)"Peter Jin's Clan");
+
+  ((*rm)[(char*)"Peter Jin's North Berlin"])->setExit((char*)"SOUTH", (char*)"Peter Pan's Dam");
+  ((*rm)[(char*)"Peter Jin's North Berlin"])->setExit((char*)"EAST", (char*)"Peter Pan's Madame Ma'am");
+  
   ((*rm)[(char*)"Peter Puffin"])->setExit((char*)"NORTH", (char*)"Peter Pan's Jam");
+  ((*rm)[(char*)"Peter Puffin"])->setExit((char*)"EAST", (char*)"Jin & Out Fanbase");
 
-  //Adding all the items!
+  ((*rm)[(char*)"Jin & Out Fanbase"])->setExit((char*)"NORTH", (char*)"Peter Pan's Fam");
+  ((*rm)[(char*)"Jin & Out Fanbase"])->setExit((char*)"EAST", (char*)"Jin & Out");
+  ((*rm)[(char*)"Jin & Out Fanbase"])->setExit((char*)"SOUTH", (char*)"Peter Pan's Milk Can");
+  ((*rm)[(char*)"Jin & Out Fanbase"])->setExit((char*)"WEST", (char*)"Peter Puffin");
+
+  ((*rm)[(char*)"Jin & Out"])->setExit((char*)"NORTH", (char*)"Peter Pan's Clan");
+  ((*rm)[(char*)"Jin & Out"])->setExit((char*)"EAST", (char*)"Peter Jin's Inn");
+  ((*rm)[(char*)"Jin & Out"])->setExit((char*)"SOUTH", (char*)"Peter Jin's Tin Bin");
+  ((*rm)[(char*)"Jin & Out"])->setExit((char*)"WEST", (char*)"Jin & Out Fanbase");
+  
+  
+  ((*rm)[(char*)"Peter Jin's Inn"])->setExit((char*)"NORTH", (char*)"Peter Pan's Madame Ma'am");
+  ((*rm)[(char*)"Peter Jin's Inn"])->setExit((char*)"EAST", (char*)"Peter Pan's Dam");
+  ((*rm)[(char*)"Peter Jin's Inn"])->setExit((char*)"SOUTH", (char*)"Peter Jin's LITTI IN MY CITY");
+  ((*rm)[(char*)"Peter Jin's Inn"])->setExit((char*)"WEST", (char*)"Jin & Out");
+
+  ((*rm)[(char*)"Peter Pan's Dam"])->setExit((char*)"NORTH", (char*)"Peter Jin's North Berlin");
+  ((*rm)[(char*)"Peter Pan's Dam"])->setExit((char*)"EAST", (char*)"Peter Jin's Inn");
+  ((*rm)[(char*)"Peter Pan's Dam"])->setExit((char*)"SOUTH", (char*)"Peter Jin's South Berlin");
+
+  ((*rm)[(char*)"Peter Pan's Evil Twin"])->setExit((char*)"EAST", (char*)"Peter Pan's Milk Can");
+  ((*rm)[(char*)"Peter Pan's Evil Twin"])->setExit((char*)"NORTH", (char*)"Peter Puffin");
+
+  ((*rm)[(char*)"Peter Pan's Milk Can"])->setExit((char*)"EAST", (char*)"Peter Jin's Tin Bin");
+  ((*rm)[(char*)"Peter Pan's Milk Can"])->setExit((char*)"NORTH", (char*)"Jin & Out Fanbase");
+  ((*rm)[(char*)"Peter Pan's Milk Can"])->setExit((char*)"WEST", (char*)"Peter Pan's Evil Twin");
+
+  ((*rm)[(char*)"Peter Jin's Tin Bin"])->setExit((char*)"EAST", (char*)"Peter Jin's LITTI IN MY CITY");
+  ((*rm)[(char*)"Peter Pan's Tin Bin"])->setExit((char*)"NORTH", (char*)"Jin & Out");
+  ((*rm)[(char*)"Peter Pan's Tin Bin"])->setExit((char*)"WEST", (char*)"Peter Pan's Milk Can");
+
+  ((*rm)[(char*)"Peter Jin's LITTI IN MY CITY"])->setExit((char*)"EAST", (char*)"Peter Jin's South Berlin");
+  ((*rm)[(char*)"Peter Pan's LITTI IN MY CITY"])->setExit((char*)"NORTH", (char*)"Peter Jin's Inn");
+  ((*rm)[(char*)"Peter Pan's LITTI IN MY CITY"])->setExit((char*)"WEST", (char*)"Peter Jin's Tin Bin");
+
+  ((*rm)[(char*)"Peter Jin's South Berlin"])->setExit((char*)"NORTH", (char*)"Peter Pan's Dam");
+  ((*rm)[(char*)"Peter Jin's South Berlin"])->setExit((char*)"WEST", (char*)"Peter Jin's LITTI IN MY CITY");
+  
+  //Adding all the default items!
+  
+  
   
   //Inventory
   vector<Item*> bag;
@@ -100,6 +163,17 @@ int main(){
   //Print out items
   //Then process commands
   while(running){
+    vector<char*>::iterator i;
+    bool found = false;
+    for(i = encRooms.begin(); i != encRooms.end(); ++i){
+      if(strcmp((*i), currentRoom->getTitle()) == 0){
+	found = true;
+      }
+    }
+    if(found == false){
+      encRooms.push_back(currentRoom->getTitle());
+    }
+	 
     if(lastRoom != currentRoom){
       printRoomString(currentRoom);
       lastRoom = currentRoom;
@@ -125,11 +199,13 @@ int main(){
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Pan's Clan"]){
       if(ev[2] == true){
+	((*rm)[(char*)"Peter Pan's Clan"])->addItem((char*)"Peter Pan's Saucepan");
 	ev[2] = 2;
 	printRoomString(currentRoom);
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Pan's Madame Ma'am"]){
       if(ev[3] == true){
+	((*rm)[(char*)"Peter Pan's Madame Ma'am"])->addItem((char*)"Peter Pan's Yam");
 	ev[3] = 2;
 	printRoomString(currentRoom);
       }
@@ -140,11 +216,17 @@ int main(){
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Puffin"]){
       if(ev[5] == true){
+	
+        ((*rm)[(char*)"Peter Puffin"])->addItem((char*)"Peter Pan's Mandarin");
+
 	ev[5] = 2;
 	printRoomString(currentRoom);
       }
     }else if(currentRoom == (*rm)[(char*)"Jin & Out Fanbase"]){
       if(ev[6] == true){
+	
+        ((*rm)[(char*)"Jin & Out Fanbase"])->addItem((char*)"Peter Pan's Fan");
+	
 	ev[6] = 2;
 	printRoomString(currentRoom);
       }
@@ -248,7 +330,7 @@ void processInput(char* commandstr, char* keywordstr){
   }
 }
 
-void processCommand(char* commandstr, char* keywordstr, vector<Command*>* commandsptr, map<char*, Room*>* rm, Room** currentRoomptr, vector<Item*>* bagptr, vector<Command*>* commands, vector<Room*>* encRoomsptr){
+void processCommand(char* commandstr, char* keywordstr, vector<Command*>* commandsptr, map<char*, Room*>* rm, Room** currentRoomptr, vector<Item*>* bagptr, vector<Command*>* commands, vector<char*>* encRoomsptr){
   vector<Command*>::iterator commandsIt;
     bool found = false;
     for(commandsIt = commandsptr->begin(); commandsIt != commandsptr->end(); ++commandsIt){
