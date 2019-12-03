@@ -1,3 +1,4 @@
+//Toss is like any other command except the currentRoom, player inventory, and specified item drops are needed
 #include <iostream>
 #include <cstring>
 #include <vector>

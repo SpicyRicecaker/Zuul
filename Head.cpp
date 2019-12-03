@@ -17,6 +17,7 @@ char* Head::returnBurn(){
   return (char*) "You head in the clouds. (Input cardinal direction)";
 }
 
+//The move just takes in the userin destination and iterates through the exits to try and find an exit room to set the currentRoom to 
 void Head::move(char* key, map<char*, Room*>* rm, Room **currentRoomptr){
   map<char*, char*>::iterator eIt;
   map<char*, char*>* exits = (*currentRoomptr)->getExits();

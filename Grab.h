@@ -1,3 +1,4 @@
+//Grab is like anyother command but the player inventory, specified item to take, and the currentRoom are needed
 #include <iostream>
 #include <cstring>
 #include <vector>

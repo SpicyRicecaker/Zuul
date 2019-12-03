@@ -1,3 +1,4 @@
+//Head is like anyother command but its move function requires a destination str, the map of rooms and titles, and the current room
 #include <iostream>
 #include <cstring>
 #include <map>

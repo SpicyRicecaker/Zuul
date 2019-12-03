@@ -1,10 +1,11 @@
 /*
 
-
+  Author: Andy Li
+  Date: 12/2/19
+  Zuul: A text-based game that allows the player to move between rooms and pickup and drop items. I also added custom events and win conditions to mine!
+  Comments to command-types other than head, toss, and sack will be on main
 
 */
-
-
 #include <iostream>
 #include <cstring>
 #include <vector>
@@ -12,14 +13,22 @@
 #include <map>
 #include "Item.h"
 #include "Room.h"
+
+//There are quite a few commands but all are based off of command class
+//A command just needs a description, type, and something to return when the user types the command incorrectly
 #include "Command.h"
 #include "Head.h"
 #include "Grab.h"
 #include "Toss.h"
+//This command simply iterates through the players inventory of item vectors and displays their names.
 #include "Sack.h"
+//This command is a major class that stores in an event array, which keeps tracks of which events have happened in what rooms. It also contains much of the standard talk reply of rooms.
 #include "Talk.h"
+//Prints list of commands
 #include "Help.h"
+//Prints a map that dynamically updates
 #include "Plot.h"
+//Exits the program
 #include "Quit.h"
 
 #define HELP_TYPE 2
@@ -33,6 +42,7 @@
 
 using namespace std;
 
+//Function Prototypes
 void buildRoom (map<char*,Room*>*, char*, char*);
 void processInput(char*, char*);
 void processCommand(char* , char* , vector<Command*>*, map<char*, Room*>*, Room**, vector<Item*>*, vector<Command*>*, vector<char*>*);
@@ -49,7 +59,7 @@ int main(){
   //List of Rooms
   map<char*, Room*>* rm = new map<char*, Room*>;
   
-  //Adding all the Rooms!
+  //Adding all the Rooms! Desc can change with events
   buildRoom(rm, (char*)"Peter Pan's Jam", (char*)"Peter Pan is jamming with some songs + dance moves.");
   buildRoom(rm, (char*)"Peter Pan's Fam", (char*)"Peter Pan's Nan is there to cheer you on. It fills you with DETERMINATION.");
   buildRoom(rm, (char*)"Peter Pan's Clan", (char*)"Peter Pan's former clan is in tears after they heard about Peter Pan's fast departure.");
@@ -65,7 +75,7 @@ int main(){
   buildRoom(rm, (char*)"Peter Jin's Tin Bin", (char*)"It's literally the basement of Jin & Out... molding burger wrappers and crumpled paper cups pile miles high into every direction... It's like Scrooge mcDuck's vault, except full of junk");
   buildRoom(rm, (char*)"Peter Jin's LITTI IN MY CITY", (char*)"An entire city seems to almost completely be out of power... except for a flickering lampost illuminating an old man sitting on a blue metal bench, reading a newspaper.");
   buildRoom(rm, (char*)"Peter Jin's South Berlin", (char*)"Seaweed rolls over houses and dry cracked wells... But the streets are far from deserted. You come across a gathering of around a hundred people clamoring over something...");
-  //Adding all the default Exits
+  //Adding all the Exits that the game starts out with (more added later in events)
 
   ((*rm)[(char*)"Peter Pan's Fam"])->setExit((char*)"WEST", (char*)"Peter Pan's Jam");
   ((*rm)[(char*)"Peter Pan's Fam"])->setExit((char*)"SOUTH", (char*)"Jin & Out Fanbase");
@@ -143,7 +153,7 @@ int main(){
   char keywordsarr[99];
   char* keywordstr = keywordsarr;
   
-  //Initiating commands
+  //Initiating **starting** commands (more added later in events)
   commandsptr->push_back(new Help((char*)"HELP"));
   commandsptr->push_back(new Head((char*)"HEAD"));
   commandsptr->push_back(new Grab((char*)"GRAB"));
@@ -155,13 +165,14 @@ int main(){
   }
   commandsptr->push_back(new Talk((char*)"TALK", e));
   commandsptr->push_back(new Quit((char*)"QUIT"));
-  
+
+  //Setting running and current room to prepare for game start
   bool running = true;
   
   currentRoom = ((*rm)[(char*)"Peter Pan's Jam"]);
 
   cout << "Welcome to the world of Zuul! I'd like to thank my friend Peter Jin for making this game possible, and for helping me code. Peter Pan's Land is a world set in a dystopian future, where capitalism has led to the rise of Peter Jin & Peter Pan. Anyways, have fun playing!" << endl;
-
+  
   printRoomString(currentRoom);
   
   //Print out long description of room.
@@ -169,6 +180,7 @@ int main(){
   //Print out items
   //Then process commands
   while(running){
+    //Basically add room to list of visited rooms if it isn't in there already
     vector<char*>::iterator i;
     bool found = false;
     for(i = encRooms.begin(); i != encRooms.end(); ++i){
@@ -179,14 +191,17 @@ int main(){
     if(found == false){
       encRooms.push_back(currentRoom->getTitle());
     }
-	 
     if(lastRoom != currentRoom){
       printRoomString(currentRoom);
       lastRoom = currentRoom;
     }
+    //Take in userin and try to translate that into a command
     processInput(commandstr, keywordstr);
     processCommand(commandstr, keywordstr, commandsptr, rm, currentRoomptr, bagptr, commandsptr, encRoomsptr);
-    
+
+    //We take the ev array that is stored in Talk to do all manner of events
+    //The basis of activating an event is finding the current room, checking the event array connected to that room, then making another event based off of those qualities
+    //The .png map contains all of the event method intents
     int* ev = ((Talk*)(commands.at(5)))->getEv();
     if(currentRoom == (*rm)[(char*)"Peter Pan's Jam"]){
       if(ev[0] == true){
@@ -626,6 +641,7 @@ int main(){
   }
 }
 
+//Build room takes in title and desc, makes new rooom, then adds that to the map
 void buildRoom (map<char*,Room*>* rm, char* rmTitle, char* rmDesc) {
   (*rm)[rmTitle] = new Room(rmTitle, rmDesc, new vector<Item*>, new map<char*,char*>);
 }
@@ -682,6 +698,7 @@ void processInput(char* commandstr, char* keywordstr){
   }
 }
 
+//Process a command by checking if the commands list has this command, then passes that into the corresponding type
 void processCommand(char* commandstr, char* keywordstr, vector<Command*>* commandsptr, map<char*, Room*>* rm, Room** currentRoomptr, vector<Item*>* bagptr, vector<Command*>* commands, vector<char*>* encRoomsptr){
   vector<Command*>::iterator commandsIt;
     bool found = false;
@@ -757,6 +774,7 @@ void processCommand(char* commandstr, char* keywordstr, vector<Command*>* comman
    }
 }
 
+//Iterates through the exits of a room and prints
 void printExitString(map<char*, char*>* exits){
   map<char*, char*>::iterator it;
   for(it = exits->begin(); it != exits->end(); ++it){
@@ -765,6 +783,7 @@ void printExitString(map<char*, char*>* exits){
   cout << endl;
 }
 
+//Iterates through the items of a room and prints
 void printItemString(vector<Item*>* items){
   vector<Item*>::iterator iIt;
   for(iIt = items->begin(); iIt != items->end(); ++iIt){
@@ -773,6 +792,7 @@ void printItemString(vector<Item*>* items){
   cout << endl;
 }
 
+//A nice package that gives the user all of the needed UI of exits, items, and currentRoom
 void printRoomString(Room* currentRoom){
   cout << "You are at " << currentRoom->getTitle() << "!" << endl;
   cout << currentRoom->getDesc() << endl;
