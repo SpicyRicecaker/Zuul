@@ -8,12 +8,12 @@
 #include "Command.h"
 #include "Head.h"
 #include "Grab.h"
-
 #include "Toss.h"
 #include "Sack.h"
 #include "Talk.h"
 #include "Help.h"
 #include "Plot.h"
+#include "Quit.h"
 
 #define HELP_TYPE 2
 #define HEAD_TYPE 3
@@ -22,6 +22,7 @@
 #define SACK_TYPE 6
 #define TALK_TYPE 7
 #define PLOT_TYPE 8
+#define QUIT_TYPE 9
 
 using namespace std;
 
@@ -58,63 +59,76 @@ int main(){
   buildRoom(rm, (char*)"Peter Jin's LITTI IN MY CITY", (char*)"An entire town seems to almost completely be out of power... except for a flickering lampost illuminating an old man sitting on a blue metal bench, reading a newspaper.");
   buildRoom(rm, (char*)"Peter Jin's South Berlin", (char*)"You see seaweed rolling over houses and dry cracked wells... But the streets are far from lively. You come across a gathering of around a hundred people clamoring over something... (Custom Event)(Peter Pan's Yam)");
   //Adding all the default Exits
-   
+
+  cout << "w" << endl;
   ((*rm)[(char*)"Peter Pan's Fam"])->setExit((char*)"WEST", (char*)"Peter Pan's Jam");
   ((*rm)[(char*)"Peter Pan's Fam"])->setExit((char*)"SOUTH", (char*)"Jin & Out Fanbase");
   ((*rm)[(char*)"Peter Pan's Fam"])->setExit((char*)"EAST", (char*)"Peter Pan's Clan");
 
+  cout << "w" << endl;
   ((*rm)[(char*)"Peter Pan's Clan"])->setExit((char*)"EAST", (char*)"Peter Pan's Madame Ma'am");
   ((*rm)[(char*)"Peter Pan's Clan"])->setExit((char*)"SOUTH", (char*)"Jin & Out");
   ((*rm)[(char*)"Peter Pan's Clan"])->setExit((char*)"WEST", (char*)"Peter Pan's Fam");
 
+  cout << "w" << endl;
   ((*rm)[(char*)"Peter Pan's Madame Ma'am"])->setExit((char*)"EAST", (char*)"Peter Jin's North Berlin");
   ((*rm)[(char*)"Peter Pan's Madame Ma'am"])->setExit((char*)"SOUTH", (char*)"Peter Jin's Inn");
   ((*rm)[(char*)"Peter Pan's Madame Ma'am"])->setExit((char*)"WEST", (char*)"Peter Jin's Clan");
 
+  cout << "w" << endl;
   ((*rm)[(char*)"Peter Jin's North Berlin"])->setExit((char*)"SOUTH", (char*)"Peter Pan's Dam");
   ((*rm)[(char*)"Peter Jin's North Berlin"])->setExit((char*)"EAST", (char*)"Peter Pan's Madame Ma'am");
-  
+
+  cout << "w" << endl;
   ((*rm)[(char*)"Peter Puffin"])->setExit((char*)"NORTH", (char*)"Peter Pan's Jam");
   ((*rm)[(char*)"Peter Puffin"])->setExit((char*)"EAST", (char*)"Jin & Out Fanbase");
 
+  cout << "w" << endl;
   ((*rm)[(char*)"Jin & Out Fanbase"])->setExit((char*)"NORTH", (char*)"Peter Pan's Fam");
   ((*rm)[(char*)"Jin & Out Fanbase"])->setExit((char*)"EAST", (char*)"Jin & Out");
   ((*rm)[(char*)"Jin & Out Fanbase"])->setExit((char*)"SOUTH", (char*)"Peter Pan's Milk Can");
   ((*rm)[(char*)"Jin & Out Fanbase"])->setExit((char*)"WEST", (char*)"Peter Puffin");
 
+  cout << "w" << endl;
   ((*rm)[(char*)"Jin & Out"])->setExit((char*)"NORTH", (char*)"Peter Pan's Clan");
   ((*rm)[(char*)"Jin & Out"])->setExit((char*)"EAST", (char*)"Peter Jin's Inn");
   ((*rm)[(char*)"Jin & Out"])->setExit((char*)"SOUTH", (char*)"Peter Jin's Tin Bin");
   ((*rm)[(char*)"Jin & Out"])->setExit((char*)"WEST", (char*)"Jin & Out Fanbase");
-  
-  
+
+  cout << "w" << endl;
   ((*rm)[(char*)"Peter Jin's Inn"])->setExit((char*)"NORTH", (char*)"Peter Pan's Madame Ma'am");
   ((*rm)[(char*)"Peter Jin's Inn"])->setExit((char*)"EAST", (char*)"Peter Pan's Dam");
   ((*rm)[(char*)"Peter Jin's Inn"])->setExit((char*)"SOUTH", (char*)"Peter Jin's LITTI IN MY CITY");
   ((*rm)[(char*)"Peter Jin's Inn"])->setExit((char*)"WEST", (char*)"Jin & Out");
 
+  cout << "w" << endl;
   ((*rm)[(char*)"Peter Pan's Dam"])->setExit((char*)"NORTH", (char*)"Peter Jin's North Berlin");
   ((*rm)[(char*)"Peter Pan's Dam"])->setExit((char*)"EAST", (char*)"Peter Jin's Inn");
   ((*rm)[(char*)"Peter Pan's Dam"])->setExit((char*)"SOUTH", (char*)"Peter Jin's South Berlin");
 
+  cout << "w" << endl;
   ((*rm)[(char*)"Peter Pan's Evil Twin"])->setExit((char*)"EAST", (char*)"Peter Pan's Milk Can");
   ((*rm)[(char*)"Peter Pan's Evil Twin"])->setExit((char*)"NORTH", (char*)"Peter Puffin");
 
+  cout << "w" << endl;
   ((*rm)[(char*)"Peter Pan's Milk Can"])->setExit((char*)"EAST", (char*)"Peter Jin's Tin Bin");
   ((*rm)[(char*)"Peter Pan's Milk Can"])->setExit((char*)"NORTH", (char*)"Jin & Out Fanbase");
   ((*rm)[(char*)"Peter Pan's Milk Can"])->setExit((char*)"WEST", (char*)"Peter Pan's Evil Twin");
 
+  cout << "w" << endl;
   ((*rm)[(char*)"Peter Jin's Tin Bin"])->setExit((char*)"EAST", (char*)"Peter Jin's LITTI IN MY CITY");
-  ((*rm)[(char*)"Peter Pan's Tin Bin"])->setExit((char*)"NORTH", (char*)"Jin & Out");
-  ((*rm)[(char*)"Peter Pan's Tin Bin"])->setExit((char*)"WEST", (char*)"Peter Pan's Milk Can");
+  ((*rm)[(char*)"Peter Jin's Tin Bin"])->setExit((char*)"NORTH", (char*)"Jin & Out");
+  ((*rm)[(char*)"Peter Jin's Tin Bin"])->setExit((char*)"WEST", (char*)"Peter Pan's Milk Can");
 
   ((*rm)[(char*)"Peter Jin's LITTI IN MY CITY"])->setExit((char*)"EAST", (char*)"Peter Jin's South Berlin");
-  ((*rm)[(char*)"Peter Pan's LITTI IN MY CITY"])->setExit((char*)"NORTH", (char*)"Peter Jin's Inn");
-  ((*rm)[(char*)"Peter Pan's LITTI IN MY CITY"])->setExit((char*)"WEST", (char*)"Peter Jin's Tin Bin");
+  ((*rm)[(char*)"Peter Jin's LITTI IN MY CITY"])->setExit((char*)"NORTH", (char*)"Peter Jin's Inn");
+  ((*rm)[(char*)"Peter Jin's LITTI IN MY CITY"])->setExit((char*)"WEST", (char*)"Peter Jin's Tin Bin");
 
+  cout << "w" << endl;
   ((*rm)[(char*)"Peter Jin's South Berlin"])->setExit((char*)"NORTH", (char*)"Peter Pan's Dam");
   ((*rm)[(char*)"Peter Jin's South Berlin"])->setExit((char*)"WEST", (char*)"Peter Jin's LITTI IN MY CITY");
-  
+
+  cout << "w" << endl;
   //Adding all the default items!
   
   
@@ -149,6 +163,7 @@ int main(){
     e[a] = 0;
   }
   commandsptr->push_back(new Talk((char*)"TALK", e));
+  commandsptr->push_back(new Quit((char*)"QUIT"));
   
   bool running = true;
   
@@ -194,6 +209,9 @@ int main(){
     }else if(currentRoom == (*rm)[(char*)"Peter Pan's Fam"]){
       if(ev[1] == true){
 	commandsptr->push_back(new Plot((char*)"PLOT"));
+
+	((*rm)[(char*)"Peter Pan's Fam"])->addItem((char*)"Peter Pan's SPAM");
+	
 	ev[1] = 2;
 	printRoomString(currentRoom);
       }
@@ -391,6 +409,13 @@ void processCommand(char* commandstr, char* keywordstr, vector<Command*>* comman
 	  ((Plot*)(*commandsIt))->printMap(currentRoomptr, rm, encRoomsptr);
 	}else{
 	  cout << ((Plot*)(*commandsIt))->returnBurn() << endl;
+	}
+	break;
+      case QUIT_TYPE:
+        if(strcmp(keywordstr,"") == 0){
+	  ((Quit*)(*commandsIt))->getMeOut();
+	}else{
+	  cout << ((Quit*)(*commandsIt))->returnBurn() << endl;
 	}
 	break;
       }

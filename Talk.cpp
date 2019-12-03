@@ -147,11 +147,15 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
     }
   }else if(strcmp((*currentRoom)->getTitle(), "Jin & Out") == 0){
     if(ev[7] == false){
-      cout << 
+      cout << "Ah! Sorry, but by any chance, would you have some SPAM & Yam?" << endl;
       cin.get(scrollText, 999);
       cin.clear();
       cin.ignore(999, '\n');
-      ev[7] = true;
+      cout << "Supplies are running low and uh... tensions are rising in the kitchen..." << endl;
+      cin.get(scrollText, 999);
+      cin.clear();
+      cin.ignore(999, '\n');
+      //ev[7] = true;
     }else{
       cout << "There's no one to talk to..." << endl;
     }

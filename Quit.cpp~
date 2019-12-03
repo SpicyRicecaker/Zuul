@@ -1,0 +1,15 @@
+#include <iostream>
+#include <cstring>
+#include "Quit.h"
+
+Quit::Quit(char* newDesc) : Command(newDesc){
+
+}
+
+int Quit::getType(){
+  return 9;
+}
+
+char* Quit::returnBurn(){
+  
+}
