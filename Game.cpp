@@ -3,8 +3,15 @@
   Author: Andy Li
   Date: 12/2/19
   Zuul: A text-based game that allows the player to move between rooms and pickup and drop items. I also added custom events and win conditions to mine!
-  Comments to command-types other than head, toss, and sack will be on main
+  Comments to command-types other than head, toss, and sack will be on main.
 
+  Date: 12/13/19
+        Please note that the 'TALK' function is how all of this Game's events are accessed, and events spawn items, make room exits, and new rooms, etc.. Basically, it's required to get out of the first room and win the game.
+        Changes since last commit:
+        - Expanded on the help function to actually explain what each command does. This lead to
+                  - Help function changes to include new descriptions
+        - Talked about the importance of the talk function in the first room
+        - Fixed some typos
 */
 #include <iostream>
 #include <cstring>
@@ -60,7 +67,7 @@ int main(){
   map<char*, Room*>* rm = new map<char*, Room*>;
   
   //Adding all the Rooms! Desc can change with events
-  buildRoom(rm, (char*)"Peter Pan's Jam", (char*)"Peter Pan is jamming with some songs + dance moves.");
+  buildRoom(rm, (char*)"Peter Pan's Jam", (char*)"Peter Pan is jamming with some songs + dance moves. (Make sure to talk!)");
   buildRoom(rm, (char*)"Peter Pan's Fam", (char*)"Peter Pan's Nan is there to cheer you on. It fills you with DETERMINATION.");
   buildRoom(rm, (char*)"Peter Pan's Clan", (char*)"Peter Pan's former clan is in tears after they heard about Peter Pan's fast departure.");
   buildRoom(rm, (char*)"Peter Pan's Madame Ma'am", (char*)"In front of you is a hearty little farm, with a tidy house and a large barn. On the front porch a woman sweeps the floor.");
@@ -216,7 +223,7 @@ int main(){
       }
     }else if(currentRoom == (*rm)[(char*)"Peter Pan's Fam"]){
       if(ev[1] == true){
-	commandsptr->push_back(new Plot((char*)"PLOT"));
+        commandsptr->push_back(new Plot((char*)"PLOT"));
 
 	((*rm)[(char*)"Peter Pan's Fam"])->addItem((char*)"Peter_Pan's_SPAM");
 	
