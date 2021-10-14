@@ -28,7 +28,7 @@ void Grab::take(Room **currentRoomptr, vector<Item *> *bag, char *itemName)
   for (rmIt = ((*currentRoomptr)->getItems())->begin(); rmIt != ((*currentRoomptr)->getItems())->end();)
   {
     char *inQ = (*rmIt)->getName();
-    char temp[strlen(inQ) + 1] = "";
+    char *temp = new char[strlen(inQ) + 1]{};
     for (int a = 0; a < strlen(inQ); ++a)
     {
       temp[a] = toupper(inQ[a]);

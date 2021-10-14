@@ -28,7 +28,7 @@ void Toss::drop(Room **currentRoomptr, vector<Item *> *bag, char *itemName)
   for (inIt = bag->begin(); inIt != bag->end();)
   {
     char *inQ = (*inIt)->getName();
-    char temp[strlen(inQ) + 1] = "";
+    char *temp = new char[strlen(inQ) + 1]{};
     for (int a = 0; a < strlen(inQ); ++a)
     {
       temp[a] = toupper(inQ[a]);

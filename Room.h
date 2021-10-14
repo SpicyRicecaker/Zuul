@@ -17,7 +17,7 @@ public:
   char *getDesc();
   vector<Item *> *getItems();
   map<char *, char *> *getExits();
-  Room *getExitRoom();
+  // Room *getExitRoom();
   void setDesc(char *);
   void setExit(char *, char *);
   void addItem(char *);

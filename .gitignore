@@ -2,3 +2,5 @@
 *~
 # Ignore all .exes
 *.exe
+*.pdb
+*.obj

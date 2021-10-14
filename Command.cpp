@@ -16,8 +16,10 @@ char *Command::getDesc()
 
 int Command::getType()
 {
+  return 0;
 }
 
 char *Command::returnBurn()
 {
+  return new char[0];
 }

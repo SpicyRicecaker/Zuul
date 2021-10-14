@@ -36,10 +36,10 @@ map<char *, char *> *Room::getExits()
   return exits;
 }
 
-Room *Room::getExitRoom()
-{
-  //Hashmap direction
-}
+// Room *Room::getExitRoom()
+// {
+//   //Hashmap direction
+// }
 
 void Room::setDesc(char *newDesc)
 {

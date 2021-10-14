@@ -63,6 +63,7 @@ int main()
 	//List of Visited Rooms (for Map)
 	vector<char *> encRooms;
 	vector<char *> *encRoomsptr = &encRooms;
+	cout << "123123" << endl;
 
 	//List of Rooms
 	map<char *, Room *> *rm = new map<char *, Room *>;
@@ -801,7 +802,7 @@ void buildRoom(map<char *, Room *> *rm, char *rmTitle, char *rmDesc)
 //process userin, decide if it is one or two words, then return one or two words
 void processInput(char *commandstr, char *keywordstr)
 {
-	char in[99];
+	char *in = new char[99];
 	while (true)
 	{
 		int spaces = 0;
@@ -842,8 +843,9 @@ void processInput(char *commandstr, char *keywordstr)
 				if (index != 0 && index != strlen(in) - 1)
 				{
 					//We add 1 more to the array length to hold the null terminating character
-					char first[index + 1] = "";
-					char second[(strlen(in) - index)] = "";
+					// char first[index + 1] = "";
+					char* first = new char[index + 1]{};
+					char* second = new char[(strlen(in) - index)]{};
 
 					for (int a = 0; a < index; ++a)
 					{
