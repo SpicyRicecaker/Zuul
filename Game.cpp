@@ -63,7 +63,6 @@ int main()
 	//List of Visited Rooms (for Map)
 	vector<char *> encRooms;
 	vector<char *> *encRoomsptr = &encRooms;
-	cout << "123123" << endl;
 
 	//List of Rooms
 	map<char *, Room *> *rm = new map<char *, Room *>;
