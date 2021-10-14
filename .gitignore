@@ -1,0 +1,4 @@
+# Ignore all autosave files
+*~
+# Ignore all .exes
+*.exe
