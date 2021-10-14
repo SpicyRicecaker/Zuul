@@ -4,19 +4,20 @@
 
 using namespace std;
 
-Command::Command(char* newDesc){
+Command::Command(char *newDesc)
+{
   desc = newDesc;
 }
 
-char* Command::getDesc(){
+char *Command::getDesc()
+{
   return desc;
 }
 
-int Command::getType(){
-
+int Command::getType()
+{
 }
 
-char* Command::returnBurn(){
-
+char *Command::returnBurn()
+{
 }
-

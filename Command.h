@@ -8,14 +8,15 @@ using namespace std;
 
 class Command
 {
- public:
+public:
   //A command just needs a description
-  Command(char*);
-  char* getDesc();
-  char* getExplanation();
+  Command(char *);
+  char *getDesc();
+  char *getExplanation();
   virtual int getType();
-  virtual char* returnBurn();
- private:
-  char* desc;
+  virtual char *returnBurn();
+
+private:
+  char *desc;
 };
 #endif

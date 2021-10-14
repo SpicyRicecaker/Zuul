@@ -6,38 +6,49 @@
 #include "Item.h"
 #include "Room.h"
 
-Talk::Talk(char* newDesc, int* newEv) : Command(newDesc){
+Talk::Talk(char *newDesc, int *newEv) : Command(newDesc)
+{
   ev = newEv;
 }
 
-int Talk::getType(){
+int Talk::getType()
+{
   return 7;
 }
 
-char* Talk::returnBurn(){
-  return (char*) "Unfortunately, you do not have the rights to free speech in this game.";
+char *Talk::returnBurn()
+{
+  return (char *)"Unfortunately, you do not have the rights to free speech in this game.";
 }
 
-
-int* Talk::getEv(){
+int *Talk::getEv()
+{
   return ev;
 }
 
-void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
-  char scrollText[999] = ""; 
-  if(strcmp((*currentRoom)->getTitle(), "Peter Pan's Jam") == 0){
-    if(ev[0] == false){
+void Talk::act(map<char *, Room *> *rm, Room **currentRoom, vector<Item *> *bag)
+{
+  char scrollText[999] = "";
+  if (strcmp((*currentRoom)->getTitle(), "Peter Pan's Jam") == 0)
+  {
+    if (ev[0] == false)
+    {
       cout << "You try to jam along with Peter Pan. Suddenly, he is spirited away by some EVIL PEANUT BUTTER" << endl;
       cin.get(scrollText, 999);
       cin.clear();
       cin.ignore(999, '\n');
       cout << "All that remains is Peter's Jam. It fills you with DETERMINATION!" << endl;
       ev[0] = true;
-    }else{
+    }
+    else
+    {
       cout << "There's no one to talk to ... maybe you should check in with Peter Pan's Fam to the East?" << endl;
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Peter Pan's Fam") == 0){
-    if(ev[1] == false){
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Peter Pan's Fam") == 0)
+  {
+    if (ev[1] == false)
+    {
       cout << "Suddenly, a broad-shouldered handsome man stumbles into the room." << endl;
       cin.get(scrollText, 999);
       cin.clear();
@@ -55,11 +66,16 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.clear();
       cin.ignore(999, '\n');
       ev[1] = true;
-    }else{
+    }
+    else
+    {
       cout << "(*sniff*) No need to thank me (*sniff*)" << endl;
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Peter Pan's Clan") == 0){
-    if(ev[2] == false){
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Peter Pan's Clan") == 0)
+  {
+    if (ev[2] == false)
+    {
       cout << "Wahhhhhh! It's not fair! He was too young! (Wails and Sobs drown you)" << endl;
       cin.get(scrollText, 999);
       cin.clear();
@@ -77,11 +93,16 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.clear();
       cin.ignore(999, '\n');
       ev[2] = true;
-    }else{
+    }
+    else
+    {
       cout << "There's no one to talk to..." << endl;
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Peter Pan's Madame Ma'am") == 0){
-    if(ev[3] == false){
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Peter Pan's Madame Ma'am") == 0)
+  {
+    if (ev[3] == false)
+    {
       cout << "I told that Peter Pan that he should've just stayed with his fam on the farm!" << endl;
       cin.get(scrollText, 999);
       cin.clear();
@@ -99,11 +120,16 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.clear();
       cin.ignore(999, '\n');
       ev[3] = true;
-    }else{
+    }
+    else
+    {
       cout << "Nothing like some yam to cheer up your fam!" << endl;
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Peter Jin's North Berlin") == 0){
-    if(ev[4] == false){
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Peter Jin's North Berlin") == 0)
+  {
+    if (ev[4] == false)
+    {
       cout << "We want tasty lamb stew! We want tasty lamb stew!" << endl;
       cin.get(scrollText, 999);
       cin.clear();
@@ -114,29 +140,43 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.ignore(999, '\n');
       cout << "(If only they had something that was cheap to eat, comes in large quantities, and can be prepared quickly)" << endl;
       ev[4] = true;
-    }else if(ev[4] == true){
+    }
+    else if (ev[4] == true)
+    {
       cout << "(Something mass-produced and cheap...)" << endl;
-    }else{
+    }
+    else
+    {
       cout << "Well, that was a natural phoenomenon" << endl;
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Peter Puffin") == 0){
-    if(ev[5] == false){
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Peter Puffin") == 0)
+  {
+    if (ev[5] == false)
+    {
       cout << "Hey there! Sorry, but I'll have to pass on letting you pass!" << endl;
       cin.get(scrollText, 999);
       cin.clear();
       cin.ignore(999, '\n');
       ev[5] = true;
-    }else if(ev[5] == true){
+    }
+    else if (ev[5] == true)
+    {
       cout << "Hey there! Sorry, but I'll have to pass on letting you pass!" << endl;
       cin.get(scrollText, 999);
       cin.clear();
       cin.ignore(999, '\n');
       //After it's gone
-    }else{
+    }
+    else
+    {
       cout << "*blub* *blub*" << endl;
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Jin & Out Fanbase") == 0){
-    if(ev[6] == false){
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Jin & Out Fanbase") == 0)
+  {
+    if (ev[6] == false)
+    {
       cout << "Hey yo! Are you Peter Pan's Fan? Of course you are! (A folded fan slaps you right on the forhead)" << endl;
       cin.get(scrollText, 999);
       cin.clear();
@@ -150,11 +190,16 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.clear();
       cin.ignore(999, '\n');
       ev[6] = true;
-    }else{
+    }
+    else
+    {
       cout << "There's no one to talk to..." << endl;
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Jin & Out") == 0){
-    if(ev[7] == false){
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Jin & Out") == 0)
+  {
+    if (ev[7] == false)
+    {
       cout << "Ah! Sorry, but by any chance, would you have some SPAM & Yam?" << endl;
       cin.get(scrollText, 999);
       cin.clear();
@@ -173,14 +218,21 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.ignore(999, '\n');
       ev[7] = true;
       //Scan for stuff
-    }else if(ev[7] == true){
+    }
+    else if (ev[7] == true)
+    {
       cout << "(Some Yam and Spam?...)" << endl;
-    }else{
+    }
+    else
+    {
       cout << "Heehee, all thanks to you, the kitchens no longer on fire! There's still a lot of screaming and shouting tho... Anyway, I got some burgers and fries, if you need any!" << endl;
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Peter Jin's Inn") == 0){
-    if(ev[8] == false){
-      cout << "Hearing the bell attached to the door, someone walks out of the kitchen wearing blue jeans, a blue t-shirt, and a red carapace." << endl; 
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Peter Jin's Inn") == 0)
+  {
+    if (ev[8] == false)
+    {
+      cout << "Hearing the bell attached to the door, someone walks out of the kitchen wearing blue jeans, a blue t-shirt, and a red carapace." << endl;
       cin.get(scrollText, 999);
       cin.clear();
       cin.ignore(999, '\n');
@@ -212,19 +264,26 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.get(scrollText, 999);
       cin.clear();
       cin.ignore(999, '\n');
-      cout << "But I'm old now, and that fin makes me grow weary at the sight of it. You can take it along if you want, but make sure you come back for a visit sometime! Farewell! (He saunters back into the kitchen)" << endl; 
+      cout << "But I'm old now, and that fin makes me grow weary at the sight of it. You can take it along if you want, but make sure you come back for a visit sometime! Farewell! (He saunters back into the kitchen)" << endl;
       cin.get(scrollText, 999);
       cin.clear();
       cin.ignore(999, '\n');
       ev[8] = true;
       //do stuff
-    }else if (ev[8] == true){
+    }
+    else if (ev[8] == true)
+    {
       cout << "(Mr.sbarK is still in the kitchen...)" << endl;
-    }else{
+    }
+    else
+    {
       cout << "(Mr.sbarK is in the party!)" << endl;
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Peter Pan's Dam") == 0){
-    if(ev[9] == false){
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Peter Pan's Dam") == 0)
+  {
+    if (ev[9] == false)
+    {
       cout << "Muahahaha! Those foolish fools, as they squabble among themselves, I grow stronger by the minute from all this water!" << endl;
       cin.get(scrollText, 999);
       cin.clear();
@@ -234,14 +293,21 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.clear();
       cin.ignore(999, '\n');
       ev[9] = true;
-    }else if(ev[9] == true){
+    }
+    else if (ev[9] == true)
+    {
       cout << "Ehehehehe~~" << endl;
-    }else{
+    }
+    else
+    {
       cout << "Nuhuhuhuhu" << endl;
       cout << "Wait, is that coming from UNDERWATER?!" << endl;
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Peter Pan's Evil Twin") == 0){
-    if(ev[10] == false){
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Peter Pan's Evil Twin") == 0)
+  {
+    if (ev[10] == false)
+    {
       //???
       cout << "YOU DIED" << endl;
       exit(0);
@@ -249,12 +315,17 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.clear();
       cin.ignore(999, '\n');
       ev[10] = true;
-    }else{
+    }
+    else
+    {
       cout << "There's no one to talk to..." << endl;
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Peter Pan's Milk Can") == 0){
-    if(ev[11] == false){
-      cout << "You ask if anyone is home, but no one replies." << endl; 
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Peter Pan's Milk Can") == 0)
+  {
+    if (ev[11] == false)
+    {
+      cout << "You ask if anyone is home, but no one replies." << endl;
       cin.get(scrollText, 999);
       cin.clear();
       cin.ignore(999, '\n');
@@ -278,23 +349,33 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.get(scrollText, 999);
       cin.clear();
       cin.ignore(999, '\n');
-      cout << "I like mine with two servings of all-natural protein, cooked above some extra hot fire! If, by any chance, someone chances upon this note, make my flan, and I'll maybe consider being your friend! (P.S. An extra pair of hands might help, and any old pan will work! I heard something about fanning the fire too! THX XOXO <3)" << endl;  
+      cout << "I like mine with two servings of all-natural protein, cooked above some extra hot fire! If, by any chance, someone chances upon this note, make my flan, and I'll maybe consider being your friend! (P.S. An extra pair of hands might help, and any old pan will work! I heard something about fanning the fire too! THX XOXO <3)" << endl;
       ev[11] = true;
-    }else{
-      cout << "(You read the note again) I like mine with two servings of all-natural protein, cooked above some extra hot fire! If by any chance, someone chances upon this note, make my flan, and I'll maybe consider being your friend! (P.S. An extra pair of hands might help, and any old pan will work! I heard something about fanning the fire too! THX XOXO <3)" << endl;  
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Peter Jin's Tin Bin") == 0){
-    if(ev[12] == false){
+    else
+    {
+      cout << "(You read the note again) I like mine with two servings of all-natural protein, cooked above some extra hot fire! If by any chance, someone chances upon this note, make my flan, and I'll maybe consider being your friend! (P.S. An extra pair of hands might help, and any old pan will work! I heard something about fanning the fire too! THX XOXO <3)" << endl;
+    }
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Peter Jin's Tin Bin") == 0)
+  {
+    if (ev[12] == false)
+    {
       cout << "The wind intensifies. Some tumbleweed appears out of nowhere and drifts across the room" << endl;
       cin.get(scrollText, 999);
       cin.clear();
       cin.ignore(999, '\n');
       ev[12] = true;
-    }else{
+    }
+    else
+    {
       cout << "Wooooooosh" << endl;
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Peter Jin's LITTI IN MY CITY") == 0){
-    if(ev[13] == false){
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Peter Jin's LITTI IN MY CITY") == 0)
+  {
+    if (ev[13] == false)
+    {
       cout << "Thanks to this blackout, my niece is finally in her room reading a book by candlelight!" << endl;
       cin.get(scrollText, 999);
       cin.clear();
@@ -312,13 +393,20 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.clear();
       cin.ignore(999, '\n');
       ev[13] = true;
-    }else if (ev[13] == true){
+    }
+    else if (ev[13] == true)
+    {
       cout << "(The old man grumbles on...)" << endl;
-    }else{
+    }
+    else
+    {
       cout << "Bah! Back in my day, we read books by candlelight!" << endl;
     }
-  }else if(strcmp((*currentRoom)->getTitle(), "Peter Jin's South Berlin") == 0){
-    if(ev[14] == false){
+  }
+  else if (strcmp((*currentRoom)->getTitle(), "Peter Jin's South Berlin") == 0)
+  {
+    if (ev[14] == false)
+    {
       cout << "We want tasty ram stew! We want tasty ram stew!" << endl;
       cin.get(scrollText, 999);
       cin.clear();
@@ -329,9 +417,13 @@ void Talk::act(map<char*, Room*>* rm, Room** currentRoom, vector<Item*>* bag){
       cin.ignore(999, '\n');
       cout << "(If only they had something that was cheap to eat, comes in large quantities, and can be prepared quickly)" << endl;
       ev[14] = true;
-    }else if(ev[14] == true){
+    }
+    else if (ev[14] == true)
+    {
       cout << "(Something mass-produced and cheap...)" << endl;
-    }else{
+    }
+    else
+    {
       cout << "Well, that was a natural phoenomenon" << endl;
     }
   }

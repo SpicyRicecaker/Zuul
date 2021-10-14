@@ -2,12 +2,12 @@
 #include <cstring>
 #include "Item.h"
 
-Item::Item(char* newName){
+Item::Item(char *newName)
+{
   name = newName;
 }
 
-char* Item::getName(){
+char *Item::getName()
+{
   return name;
 }
-
-

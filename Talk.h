@@ -6,13 +6,15 @@
 #include "Item.h"
 #include "Room.h"
 
-class Talk : public Command {
- public:
-  Talk(char*, int*);
+class Talk : public Command
+{
+public:
+  Talk(char *, int *);
   int getType();
-  char* returnBurn();
-  int* getEv();
-  void act(map<char*, Room*>*, Room**, vector<Item*>*);
- private:
-  int* ev;
+  char *returnBurn();
+  int *getEv();
+  void act(map<char *, Room *> *, Room **, vector<Item *> *);
+
+private:
+  int *ev;
 };

@@ -6,12 +6,14 @@
 #include "Item.h"
 #include "Room.h"
 
-class Grab : public Command {
- public:
-  Grab(char*);
-  int getType();
-  char* returnBurn();
-  //Give: current room, player inventory, specified itemName 
-  void take(Room**, vector<Item*>*, char*);
- private:
+class Grab : public Command
+{
+public:
+    Grab(char *);
+    int getType();
+    char *returnBurn();
+    //Give: current room, player inventory, specified itemName
+    void take(Room **, vector<Item *> *, char *);
+
+private:
 };
